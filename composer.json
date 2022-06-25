@@ -1,0 +1,23 @@
+{
+    "name": "rubenromao/module-order-data-erp-amqp",
+    "description": "ERP api integration",
+    "type": "magento2-module",
+    "repositories": {
+        "magento": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    },
+    "require": {
+        "magento/framework": "*",
+        "magento/module-integration": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Rubenromao\\OrderDataErpAmqp\\": ""
+        }
+    }
+}

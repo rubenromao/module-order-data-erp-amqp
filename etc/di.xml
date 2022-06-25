@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- AMQP Preferences -->
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\AddressInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\Address" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\AddressWithLocationInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\AddressWithLocation" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\AssetInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\Asset" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\AssetMetaDataInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\AssetMetaData" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\BasketInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\Basket" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\BasketAdditionalAttributeInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\BasketAdditionalAttribute" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\CustomOptionDetailsInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\CustomOptionDetails" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\LocationFullInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\LocationFull" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\OptionsCombinationInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\OptionsCombination" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\OrderProductInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\OrderProduct" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\PriceBreakdownInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\PriceBreakdown" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\ShippingMethodInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\ShippingMethod" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\SimpleOptionInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\Data\SimpleOption" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\FullOrderInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\FullOrder" />
+    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\UpdateOrderStatusInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\UpdateOrderStatus" />
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="send-place-order-mq-message" type="Rubenromao\OrderDataErpAmqp\Plugin\Magento\Sales\Api\OrderRepositoryInterface" sortOrder="10"/>
+    </type>
+</config>

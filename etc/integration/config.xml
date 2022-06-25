@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<integrations>
+    <integration name="ERPIntegration">
+        <email>erp@email.com</email>
+        <endpoint_url>https://some-erp-endpoint.com</endpoint_url>
+        <identity_link_url>https://some-id-link.com</identity_link_url>
+    </integration>
+</integrations>
