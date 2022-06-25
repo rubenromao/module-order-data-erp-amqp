@@ -1,0 +1,9 @@
+{
+    "custom_order_api_erp_status": {
+        "column": {
+            "order_id": true,
+            "timestamp": true,
+            "code": true
+        }
+    }
+}
