@@ -1,6 +1,6 @@
 <?php
 /**
- * @package Rubenromao_TestlpwOrderDataAmq
+ * @package Rubenromao_OrderDataErpAmqp
  * @author rubenromao@gmail.com
  */
 declare(strict_types=1);

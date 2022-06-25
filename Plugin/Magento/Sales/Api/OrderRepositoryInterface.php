@@ -6,63 +6,57 @@ namespace Rubenromao\OrderDataErpAmqp\Plugin\Magento\Sales\Api;
 use Magento\Framework\MessageQueue\PublisherInterface;
 use Magento\Framework\Logger\Monolog;
 use Magento\Sales\Api\OrderRepositoryInterface as CoreClassOrderRepositoryInterface;
-use Rubenromao\OrderDataErpAmqp\Model\Amqp\OrderDetailsAmqpMessageBuilder;
 
-use Rezolve\General\Model\MerchantIdResolver;
-use Rezolve\API\Model\Basket\Order as OriginalClass;
-use Rezolve\General\Helpers\RabbitMQ;
+use Rubenromao\OrderDataErpAmqp\Model\Amqp\OrderDetailsAmqpMessageBuilder;
+use Rubenromao\OrderDataErpAmqp\Helpers\RabbitMQ;
 
 class OrderRepositoryInterface
 {
     /**
-     * @var PublisherInterface
+     * @var  PublisherInterface
      */
     protected $publisher;
     /**
-     * @var OrderDetailsAmqpMessageBuilder
+     * @var  OrderDetailsAmqpMessageBuilder
      */
     protected $amqpMessageBuilder;
-    /**
-     * @var MerchantIdResolver
-     */
-    protected $merchantIdResolver;
     /**
      * @var Monolog
      */
     private $logger;
+    /**
+     * @var RabbitMQ
+     */
+    private $rabbitMQ;
 
     /**
-     * OrderPlaced constructor
-     *
      * @param PublisherInterface $publisher
      * @param OrderDetailsAmqpMessageBuilder $amqpMessageBuilder
-     * @param MerchantIdResolver $merchantIdResolver
-     * @param OrderHelper $order
      * @param Monolog $logger
+     * @param RabbitMQ $rabbitMQ
      */
     public function __construct(
         PublisherInterface $publisher,
         OrderDetailsAmqpMessageBuilder $amqpMessageBuilder,
-        MerchantIdResolver $merchantIdResolver,
-        Monolog $logger
+        Monolog $logger,
+        RabbitMQ $rabbitMQ
     ) {
         $this->publisher = $publisher;
         $this->amqpMessageBuilder = $amqpMessageBuilder;
-        $this->merchantIdResolver = $merchantIdResolver;
         $this->logger = $logger;
+        $this->rabbitMQ = $rabbitMQ;
     }
 
     /**
-     * @param OriginalClass $subject
+     * @param CoreClassOrderRepositoryInterface $subject
      * @param $result
-     * @return mixed
+     * @return CoreClassOrderRepositoryInterface|null
      */
-    public function afterPlaceOrder(CoreClassOrderRepositoryInterface $subject, $result)
+    public function afterSave(CoreClassOrderRepositoryInterface $subject, $result): ?CoreClassOrderRepositoryInterface
     {
-        $order = $subject->get();//$subject->fetchOrderByCoreId($result->getOrderId());
+        $order = $subject->get($result->getOrderId());
         $rabbitMQMessage = $this->amqpMessageBuilder->buildRabbitMQMessage(
-            $order,
-            $this->merchantIdResolver->execute()
+            $order
         );
         try {
             $this->publisher->publish(
@@ -72,7 +66,6 @@ class OrderRepositoryInterface
         } catch (\Exception $e) {
             $this->logger->critical($e->getMessage());
         }
-
         return $result;
     }
 }

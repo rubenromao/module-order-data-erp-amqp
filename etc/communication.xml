@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Communication/etc/communication.xsd">
-    <topic name="rce.order.create.data.0.1.0" request="Rubenromao\OrderDataErpAmqp\Api\Amqp\FullOrderInterface" />
-    <topic name="rce.order.update.status.0.1.0" request="Rubenromao\OrderDataErpAmqp\Api\Amqp\UpdateOrderStatusInterface" />
+    <topic name="erp.order.api.data.0.1.0" request="Rubenromao\OrderDataErpAmqp\Api\Amqp\FullOrderInterface" />
 </config>

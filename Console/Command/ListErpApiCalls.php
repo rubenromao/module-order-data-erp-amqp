@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
 namespace Rubenromao\OrderDataErpAmqp\Console\Command;
 
 use Magento\Framework\Exception\InputException;
@@ -13,83 +12,14 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Rubenromao\OrderDataErpAmqp\Helper\Translate;
 
 /**
- * TODO add other locales
+ *
  */
-class TranslateOrderStatus extends Command
+class ListErpApiCalls extends Command
 {
     const LOCALE = 'locale';
     const RESET = 'reset';
-
-    /**
-     * This array contains the default statuses labels
-     * set by Magento in sales_order_status table.
-     *
-     * The main purpose of it is to allow us to revert (--locale="reset")
-     * any translation to the default Mage en_US status labels if we need to
-     */
-    const EN_US_STATUSES =
-        [
-            [
-                'status' => 'canceled',
-                'label'  => 'Payment Incomplete'
-            ],
-            [
-                'status' => 'closed',
-                'label'  => 'Cancelled'
-            ],
-            [
-                'status' => 'complete',
-                'label'  => 'Complete'
-            ],
-            [
-                'status' => 'failed',
-                'label'  => 'Failed'
-            ],
-            [
-                'status' => 'fraud',
-                'label'  => 'Suspected Fraud'
-            ],
-            [
-                'status' => 'holded',
-                'label'  => 'On Hold'
-            ],
-            [
-                'status' => 'payment_review',
-                'label'  => 'Payment Review'
-            ],
-            [
-                'status' => 'paypal_canceled_reversal',
-                'label'  => 'PayPal Canceled Reversal'
-            ],
-            [
-                'status' => 'paypal_reversed',
-                'label'  => 'PayPal Reversed'
-            ],
-            [
-                'status' => 'pending',
-                'label'  => 'Awaiting Payment'
-            ],
-            [
-                'status' => 'pending_payment',
-                'label'  => 'Pending Payment'
-            ],
-            [
-                'status' => 'pending_paypal',
-                'label'  => 'Pending PayPal'
-            ],
-            [
-                'status' => 'processing',
-                'label'  => 'Processing'
-            ],
-            [
-                'status' => 'submitted',
-                'label'  => 'Submitted'
-            ]
-        ];
-
     /**
      * @var Collection
      */
@@ -98,10 +28,6 @@ class TranslateOrderStatus extends Command
      * @var StatusFactory
      */
     private $statusFactory;
-    /**
-     * @var Translate
-     */
-    private $translate;
     /**
      * @var State
      */
@@ -112,21 +38,18 @@ class TranslateOrderStatus extends Command
      *
      * @param Collection    $orderStatusCollection
      * @param StatusFactory $statusFactory
-     * @param Translate     $translate
      * @param State         $state
      * @param null          $orderStatus
      */
     public function __construct(
         Collection $orderStatusCollection,
         StatusFactory $statusFactory,
-        Translate $translate,
         State $state,
         $orderStatus = null
     ) {
         parent::__construct($orderStatus);
         $this->orderStatusCollection = $orderStatusCollection;
         $this->statusFactory = $statusFactory;
-        $this->translate = $translate;
         $this->state = $state;
     }
 
@@ -166,15 +89,14 @@ class TranslateOrderStatus extends Command
              * sales_order_status table from a previous translation to the Magento default en_US labels
              */
             if ($locale === self::RESET) {
-                $orderStatuses = self::EN_US_STATUSES;
+                $orderStatuses = '';
             } else {
                 $orderStatuses = $this->orderStatusCollection->getData();
             }
 
             foreach ($orderStatuses as $orderStatus) {
                 if ($locale !== self::RESET) {
-                    $orderStatus['label'] =
-                        $this->translate->translateByLangCode($orderStatus['label'], $locale);
+                    $orderStatus['label'] = '';
                 }
                 $status->setStatus($orderStatus['status']);
                 $status->setLabel($orderStatus['label']);

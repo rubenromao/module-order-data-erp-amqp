@@ -4,7 +4,4 @@
     <publisher topic="rce.order.create.data.0.1.0">
         <connection name="amqp" exchange="rzlv" />
     </publisher>
-    <publisher topic="rce.order.update.status.0.1.0">
-        <connection name="amqp" exchange="rzlv" />
-    </publisher>
 </config>

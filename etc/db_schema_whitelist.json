@@ -1,9 +1,13 @@
 {
     "custom_order_api_erp_status": {
         "column": {
+            "id": true,
             "order_id": true,
-            "timestamp": true,
-            "code": true
+            "code": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
         }
     }
 }
