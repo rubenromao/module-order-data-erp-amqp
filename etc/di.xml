@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!-- AMQP Preferences -->
-    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\FullOrderInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\FullOrder" />
-<!--    <preference for="Rubenromao\OrderDataErpAmqp\Api\Amqp\UpdateOrderStatusInterface" type="Rubenromao\OrderDataErpAmqp\Model\Amqp\UpdateOrderStatus" />-->
+    <preference for="Rubenromao\ErpApiRequests\Api\Amqp\FullOrderInterface" type="Rubenromao\ErpApiRequests\Model\Amqp\FullOrder" />
+<!--    <preference for="Rubenromao\ErpApiRequests\Api\Amqp\UpdateOrderStatusInterface" type="Rubenromao\ErpApiRequests\Model\Amqp\UpdateOrderStatus" />-->
     <type name="Magento\Sales\Api\OrderRepositoryInterface">
-        <plugin name="send-place-order-mq-message" type="Rubenromao\OrderDataErpAmqp\Plugin\Magento\Sales\Api\OrderRepositoryInterface" sortOrder="10"/>
+        <plugin name="send-place-order-mq-message" type="Rubenromao\ErpApiRequests\Plugin\Magento\Sales\Api\OrderRepositoryInterface" sortOrder="10"/>
     </type>
 </config>

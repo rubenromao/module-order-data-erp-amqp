@@ -1,5 +1,5 @@
 <?php
-namespace Rubenromao\OrderDataErpAmqp\Helpers;
+namespace Rubenromao\ErpApiRequests\Helpers;
 
 use Magento\Amqp\Setup\ConfigOptionsList;
 use Magento\Framework\Amqp\Config;

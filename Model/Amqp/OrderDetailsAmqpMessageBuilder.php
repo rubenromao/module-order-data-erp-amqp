@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Rubenromao\OrderDataErpAmqp\Model\Amqp;
+namespace Rubenromao\ErpApiRequests\Model\Amqp;
 
 use Magento\Sales\Api\Data\OrderInterface;
 

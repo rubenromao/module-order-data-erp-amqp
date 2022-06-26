@@ -1,11 +1,11 @@
 <?php
 /**
- * @package Rubenromao_OrderDataErpAmqp
+ * @package Rubenromao_ErpApiRequests
  * @author rubenromao@gmail.com
  */
 declare(strict_types=1);
 
-namespace Rubenromao\OrderDataErpAmqp\Setup\Patch\Data;
+namespace Rubenromao\ErpApiRequests\Setup\Patch\Data;
 
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Integration\Api\IntegrationServiceInterface;

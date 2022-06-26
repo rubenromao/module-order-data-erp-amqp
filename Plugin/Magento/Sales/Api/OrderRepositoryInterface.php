@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Rubenromao\OrderDataErpAmqp\Plugin\Magento\Sales\Api;
+namespace Rubenromao\ErpApiRequests\Plugin\Magento\Sales\Api;
 
 use Magento\Framework\MessageQueue\PublisherInterface;
 use Magento\Framework\Logger\Monolog;
 use Magento\Sales\Api\OrderRepositoryInterface as CoreClassOrderRepositoryInterface;
 
-use Rubenromao\OrderDataErpAmqp\Model\Amqp\OrderDetailsAmqpMessageBuilder;
-use Rubenromao\OrderDataErpAmqp\Helpers\RabbitMQ;
+use Rubenromao\ErpApiRequests\Model\Amqp\OrderDetailsAmqpMessageBuilder;
+use Rubenromao\ErpApiRequests\Helpers\RabbitMQ;
 
 class OrderRepositoryInterface
 {

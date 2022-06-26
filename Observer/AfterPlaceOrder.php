@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Rubenromao\OrderDataErpAmqp\Observer;
+namespace Rubenromao\ErpApiRequests\Observer;
 
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Framework\Event\Observer;

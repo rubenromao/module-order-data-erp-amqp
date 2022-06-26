@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Rubenromao\OrderDataErpAmqp\Model\Amqp;
+namespace Rubenromao\ErpApiRequests\Model\Amqp;
 
-use Rubenromao\OrderDataErpAmqp\Api\Amqp\Data\AddressInterface;
-use Rubenromao\OrderDataErpAmqp\Api\Amqp\FullOrderInterface;
+use Rubenromao\ErpApiRequests\Api\Amqp\Data\AddressInterface;
+use Rubenromao\ErpApiRequests\Api\Amqp\FullOrderInterface;
 
 class FullOrder implements FullOrderInterface
 {

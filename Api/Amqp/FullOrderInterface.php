@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Rubenromao\OrderDataErpAmqp\Api\Amqp;
+namespace Rubenromao\ErpApiRequests\Api\Amqp;
 
 /**
  * This interface contains the full order data
@@ -16,7 +16,7 @@ interface FullOrderInterface
     /**
      * @param string $orderId
      *
-     * @return \Rubenromao\OrderDataErpAmqp\Api\Amqp\FullOrderInterface
+     * @return \Rubenromao\ErpApiRequests\Api\Amqp\FullOrderInterface
      */
-    public function setOrderId($orderId): \Rubenromao\OrderDataErpAmqp\Api\Amqp\FullOrderInterface;
+    public function setOrderId($orderId): \Rubenromao\ErpApiRequests\Api\Amqp\FullOrderInterface;
 }

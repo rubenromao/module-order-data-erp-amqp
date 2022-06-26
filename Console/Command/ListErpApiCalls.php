@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Rubenromao\OrderDataErpAmqp\Console\Command;
+namespace Rubenromao\ErpApiRequests\Console\Command;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Sales\Model\ResourceModel\Status\Collection;
