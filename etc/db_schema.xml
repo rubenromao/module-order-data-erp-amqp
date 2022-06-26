@@ -10,9 +10,9 @@
                 comment="Returned API Call Code"/>
         <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
                 comment="ERP API call timestamp"/>
-        <constraint xsi:type="primary" referenceId="PRIMARY">
-            <column name="id"/>
-        </constraint>
+<!--        <constraint xsi:type="primary" referenceId="PRIMARY">-->
+<!--            <column name="id"/>-->
+<!--        </constraint>-->
     </table>
 </schema>
 
