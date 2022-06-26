@@ -28,21 +28,21 @@ interface ErpApiRequestsRepositoryInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
 
-    /**
-     * Save API call response from ERP to database.
-     *
-     * @param $orderId
-     * @param $code
-     * @return mixed
-     */
-    public function saveErpApiRequests($orderId, $code);
-
-    /**
-     * Get ERP Requests from database
-     *
-     * @param $orderId
-     * @param $code
-     * @return mixed
-     */
-    public function getErpApiRequests($orderId, $code);
+//    /**
+//     * Save API call response from ERP to database.
+//     *
+//     * @param $orderId
+//     * @param $code
+//     * @return mixed
+//     */
+//    public function saveErpApiRequests($orderId, $code);
+//
+//    /**
+//     * Get ERP Requests from database
+//     *
+//     * @param $orderId
+//     * @param $code
+//     * @return mixed
+//     */
+//    public function getErpApiRequests($orderId, $code);
 }

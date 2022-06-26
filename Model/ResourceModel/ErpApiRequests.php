@@ -11,6 +11,8 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
  */
 class ErpApiRequests extends AbstractDb
 {
+    protected const ERP_API_CALLS_TABLE = 'erp_api_requests';
+
     /**
      * Define resource model
      *
@@ -18,31 +20,12 @@ class ErpApiRequests extends AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('erp_api_requests', 'order_id');
+        $this->_init(self::ERP_API_CALLS_TABLE, 'order_id');
     }
 
     /**
-     * @param $orderId
-     * @param $code
-     * @return array
-     */
-    public function getErpApiRequests($orderId, $code): array
-    {
-        $select = $this->getConnection()->select()->from(
-                $this->getTable('erp_api_requests'),
-                ['order_id', 'code', 'created_at']
-            )->where(
-                'order_id = :order_id and code = :code'
-            );
-        $bind = [
-            'order_id' => (int)$orderId,
-            'code' => (int)$code
-        ];
-
-        return $this->getConnection()->fetchAll($select, $bind);
-    }
-
-    /**
+     * Save API call response from ERP to database.
+     *
      * @param $orderId
      * @param $code
      * @return $this
@@ -54,8 +37,33 @@ class ErpApiRequests extends AbstractDb
             'order_id' => (int)$orderId,
             'code' => (int)$code
         ];
-        $connection->insert($this->getTable('erp_api_requests'), $bind);
+        $connection->insert(
+            $this->getTable(self::ERP_API_CALLS_TABLE),
+            $bind
+        );
 
         return $this;
     }
+
+//    /**
+//     * @param $orderId
+//     * @param $code
+//     * @return array
+//     */
+//    public function getErpApiRequests($orderId, $code): array
+//    {
+//        $select =
+//            $this->getConnection()->select()->from(
+//                $this->getTable(self::ERP_API_CALLS_TABLE),
+//                ['order_id', 'code', 'created_at']
+//            )->where(
+//                'order_id = :order_id and code = :code'
+//            );
+//        $bind = [
+//            'order_id' => (int)$orderId,
+//            'code' => (int)$code
+//        ];
+//
+//        return $this->getConnection()->fetchAll($select, $bind);
+//    }
 }

@@ -11,8 +11,6 @@ use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
  */
 class Collection extends AbstractCollection
 {
-    protected $_idFieldName = 'order_id';
-
     /**
      * Define resource model
      *
