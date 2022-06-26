@@ -1,7 +1,10 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/queue_publisher.xsd">
-    <!-- topic: Name of topic-->
-    <publisher topic="rce.order.create.data.0.1.0">
-        <connection name="amqp" exchange="rzlv" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/publisher.xsd">
+    <publisher topic="erp.api.process">
+        <connection
+            name="amqp"
+            exchange="erp.api"
+            disabled="false"/>
     </publisher>
 </config>

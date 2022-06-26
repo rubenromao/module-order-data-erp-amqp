@@ -8,8 +8,7 @@ use Rubenromao\ErpApiRequests\Api\Amqp\FullOrderInterface;
 
 class FullOrder implements FullOrderInterface
 {
-    private $orderId;
-    private $products;
+    private string $orderId;
 
     /**
      * {@inheritdoc}

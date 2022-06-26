@@ -50,9 +50,9 @@ class OrderRepositoryInterface
     /**
      * @param CoreClassOrderRepositoryInterface $subject
      * @param $result
-     * @return \Magento\Sales\Api\OrderRepositoryInterface|null
+     * @return CoreClassOrderRepositoryInterface|null
      */
-    public function afterSave(CoreClassOrderRepositoryInterface $subject, $result): ?\Magento\Sales\Api\OrderRepositoryInterface
+    public function afterSave(CoreClassOrderRepositoryInterface $subject, $result): ?CoreClassOrderRepositoryInterface
     {
         $order = $subject->get($result->getEntityId());
         $rabbitMQMessage = $this->amqpMessageBuilder->buildRabbitMQMessage(
@@ -60,7 +60,7 @@ class OrderRepositoryInterface
         );
         try {
             $this->publisher->publish(
-                'rce.order.create.data.0.1.0',
+                'erp.order.api.data.0.1.0',
                 $rabbitMQMessage
             );
         } catch (\Exception $e) {

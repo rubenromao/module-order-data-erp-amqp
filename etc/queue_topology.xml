@@ -1,10 +1,11 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/topology.xsd">
-    <exchange name="erp" type="topic" connection="amqp">
-        <binding id="erpOrderApiBinding"
-                 topic="erp.order.api.data.0.1.0"
+    <exchange name="erp.api" type="topic" connection="amqp">
+        <binding id="processErpApi"
+                 topic="erp.api.process"
                  destinationType="queue"
-                 destination="erp.order.api.data.0.1.0"/>
+                 destination="erp_api_process"
+                 disabled="false"/>
     </exchange>
 </config>

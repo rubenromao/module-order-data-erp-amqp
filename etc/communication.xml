@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Communication/etc/communication.xsd">
-    <topic name="erp.order.api.data.0.1.0" request="Rubenromao\ErpApiRequests\Api\Amqp\FullOrderInterface" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Communication/etc/communication.xsd">
+    <topic name="erp.api.process" request="string">
+<!--        <handler name="processApiRequestToQueue"-->
+<!--                 type="Rubenromao\ErpApiRequests\Model\Queue\Consumer"-->
+<!--                 method="process"/>-->
+    </topic>
 </config>
