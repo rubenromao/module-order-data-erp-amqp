@@ -23,16 +23,17 @@ class OrderDetailsAmqpMessageBuilder
 
     /**
      * @param OrderInterface $order
-     * @return FullOrderInterface
+     * @return array
      */
-    public function buildRabbitMQMessage(OrderInterface $order)
+    public function buildRabbitMQMessage(OrderInterface $order): array
     {
-        $order->load($order->getCreatedAt());
+        //$order->load($order->getCreatedAt());
+        $orderData = [];
+        $orderData[1] = $order->getEntityId();
+        $orderData[2] = $order->getTotalItemCount();
+        $orderData[3] = $order->getCustomerEmail();
 
-        $order->setEntityId($order->getEntityId());
-        $order->setTotalItemCount($order->getTotalItemCount());
-        $order->setCustomerEmail($order->getCustomerEmail());
 
-        //return $orderData;
+        return $orderData;
     }
 }

@@ -50,11 +50,11 @@ class OrderRepositoryInterface
     /**
      * @param CoreClassOrderRepositoryInterface $subject
      * @param $result
-     * @return CoreClassOrderRepositoryInterface|null
+     * @return \Magento\Sales\Api\OrderRepositoryInterface|null
      */
-    public function afterSave(CoreClassOrderRepositoryInterface $subject, $result): ?CoreClassOrderRepositoryInterface
+    public function afterSave(CoreClassOrderRepositoryInterface $subject, $result): ?\Magento\Sales\Api\OrderRepositoryInterface
     {
-        $order = $subject->get($result->getOrderId());
+        $order = $subject->get($result->getEntityId());
         $rabbitMQMessage = $this->amqpMessageBuilder->buildRabbitMQMessage(
             $order
         );

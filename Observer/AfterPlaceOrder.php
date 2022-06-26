@@ -53,7 +53,7 @@ class AfterPlaceOrder implements ObserverInterface
     public function execute(Observer $observer): void
     {
         $order = $observer->getEvent()->getOrder();
-        $orderId = $order->getId();
+        $orderId = $order->getIncrementId();
 
         if($order->getState() == "new")
         {
