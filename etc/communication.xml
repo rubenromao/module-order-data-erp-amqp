@@ -1,9 +1,5 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Communication/etc/communication.xsd">
-    <topic name="erp.api.process" request="string">
-<!--        <handler name="processApiRequestToQueue"-->
-<!--                 type="Rubenromao\ErpApiRequests\Model\Queue\Consumer"-->
-<!--                 method="process"/>-->
-    </topic>
+    <topic name="erp.api.process" request="string"/>
 </config>

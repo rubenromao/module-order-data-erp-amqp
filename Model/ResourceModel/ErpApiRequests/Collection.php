@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package Rubenromao_ErpApiRequests
+ * @autor rubenromao@gmail.com
+ */
 declare(strict_types=1);
 
 namespace Rubenromao\ErpApiRequests\Model\ResourceModel\CustomOrderErpApi;

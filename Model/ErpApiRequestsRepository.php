@@ -1,20 +1,17 @@
 <?php
+/**
+ * @package Rubenromao_ErpApiRequests
+ * @autor rubenromao@gmail.com
+ */
 declare(strict_types=1);
 
 namespace Rubenromao\ErpApiRequests\Model;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Framework\Exception\CouldNotDeleteException;
-
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-
-use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
 use Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterfaceFactory;
-
-use Rubenromao\ErpApiRequests\Model\ErpApiRequestsFactory as ModelErpApiRequestsFactory;
 use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests as ResourceModelErpApiRequests;
 use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests\Collection;
 use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests\CollectionFactory as CollectionErpApiRequestsFactory;
@@ -100,24 +97,4 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
 
         return $searchResult;
     }
-
-//    /**
-//     * @param $orderId
-//     * @param $code
-//     * @return mixed|void
-//     */
-//    public function saveErpApiRequests($orderId, $code)
-//    {
-//        $this->resourceModelErpApiRequests->saveErpApiRequests($orderId, $code);
-//    }
-//
-//    /**
-//     * @param $orderId
-//     * @param $code
-//     * @return array|mixed
-//     */
-//    public function getErpApiRequests($orderId, $code)
-//    {
-//        return $this->resourceModelErpApiRequests->getErpApiRequests($orderId, $code);
-//    }
 }

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package Rubenromao_ErpApiRequests
+ * @autor rubenromao@gmail.com
+ */
 declare(strict_types=1);
 
 namespace Rubenromao\ErpApiRequests\Setup\Patch\Data;
@@ -10,6 +14,8 @@ use Rubenromao\ErpApiRequests\Model\ErpApiRequestsRepository;
 /**
  * Class AddFirstRecordToErpApiRequestsTable
  * @package Rubenromao/ErpApiRequests\Setup\Patch\Data
+ *
+ * Add first dummy record to our custom table
  */
 class AddFirstRecordToErpApiRequestsTable implements DataPatchInterface
 {

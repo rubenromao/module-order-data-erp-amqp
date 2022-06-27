@@ -4,126 +4,69 @@ declare(strict_types=1);
 namespace Rubenromao\ErpApiRequests\Console\Command;
 
 use Magento\Framework\Exception\InputException;
-use Magento\Sales\Model\ResourceModel\Status\Collection;
-use Magento\Sales\Model\Order\StatusFactory;
-use Magento\Framework\App\State;
-use Magento\Framework\App\Area;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- *
+ * TODO: diz is only a skeleton
  */
 class ListErpApiCalls extends Command
 {
-    const LOCALE = 'locale';
-    const RESET = 'reset';
-    /**
-     * @var Collection
-     */
-    private $orderStatusCollection;
-    /**
-     * @var StatusFactory
-     */
-    private $statusFactory;
-    /**
-     * @var State
-     */
-    private $state;
+    const PASS = 'pass';
+    const FAIL = 'fail';
 
     /**
      * Order Status constructor
      *
-     * @param Collection    $orderStatusCollection
-     * @param StatusFactory $statusFactory
-     * @param State         $state
-     * @param null          $orderStatus
+     * @param null $order
      */
     public function __construct(
-        Collection $orderStatusCollection,
-        StatusFactory $statusFactory,
-        State $state,
-        $orderStatus = null
+        $order = null
     ) {
-        parent::__construct($orderStatus);
-        $this->orderStatusCollection = $orderStatusCollection;
-        $this->statusFactory = $statusFactory;
-        $this->state = $state;
+        parent::__construct($order);
     }
 
     /**
-     * Command example: php bin/magento rezolve:translate:orderstatus --locale="en_US"
-     *
-     * @api
+     * @return void
      */
     public function configure()
     {
         $arguments = $this->getArgs();
-
-        $this->setName('rezolve:translate:orderstatus')
-            ->setDescription('Translates Order Statuses To a Given Locale When Deploy Runs (Part of Ansible Playbook)')
+        $this->setName('erp:show')
+            ->setDescription('List 10 last Order Sent To ERP')
             ->setDefinition($arguments);
     }
 
     /**
      * @param InputInterface $input
      * @param OutputInterface $output
-     *
-     * @return int|void|null
-     * @throws \Magento\Framework\Exception\LocalizedException
+     * @return void
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         try {
-            $this->state->setAreaCode(Area::AREA_GLOBAL);
-
-            $locale = $this->getLocale($input);
-
-            $status = $this->statusFactory->create();
-            $status->getData();
-
-            /**
-             * By passing "reset" as locale parameter value (i.e. --locale="reset") allow us to reset the
-             * sales_order_status table from a previous translation to the Magento default en_US labels
-             */
-            if ($locale === self::RESET) {
-                $orderStatuses = '';
+            $listType = $this->getType($input);
+            $data = $this->erpFactory->create();
+            $data->getData();
+            if ($listType === self::PASS) {
+                $orderStatus = $this->erpCollection->getData('code', '200');
             } else {
-                $orderStatuses = $this->orderStatusCollection->getData();
-            }
-
-            foreach ($orderStatuses as $orderStatus) {
-                if ($locale !== self::RESET) {
-                    $orderStatus['label'] = '';
-                }
-                $status->setStatus($orderStatus['status']);
-                $status->setLabel($orderStatus['label']);
-                $status->save();
+                $orderStatus = $this->erpCollection->getData('code', '');
             }
         } catch (InputException $e) {
-            $output->writeln("Error Translating Order Statuses: " . $e->getMessage());
-
+            $output->writeln("Error: " . $e->getMessage());
             return;
         }
-        $output->writeln('Order Statuses have been translated successfully');
     }
 
     /**
      * @param InputInterface $input
-     *
-     * @return bool|mixed|string|string[]|null
-     * @throws InputException
+     * @return void
      */
-    private function getLocale(InputInterface $input)
+    private function getType(InputInterface $input)
     {
-        $locale = $input->getOption(self::LOCALE);
-        if (null === $locale) {
-            throw InputException::requiredField(self::LOCALE);
-        }
-
-        return $locale;
     }
 
     /**
@@ -133,10 +76,10 @@ class ListErpApiCalls extends Command
     {
         $args   = [];
         $args[] = new InputOption(
-            self::LOCALE,
+            self::PASS,
             null,
             InputOption::VALUE_REQUIRED,
-            'The locale to be used to translate the order statuses'
+            'The http response code must be specified'
         );
 
         return $args;

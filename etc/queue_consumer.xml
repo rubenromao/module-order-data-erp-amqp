@@ -4,7 +4,7 @@
     <consumer name="processErpApi"
               queue="erp_api_process"
               connection="amqp"
-              handler="Rubenromao\ErpApiRequests\Model\Queue\Consumer::processMessage"/>
+              maxMessages="1000"
+              consumerInstance="Magento\Framework\MessageQueue\Consumer"
+              handler="Rubenromao\ErpApiRequests\Model\Amqp\OrderConsumer::processMessage"/>
 </config>
-<!--    maxMessages="1000"-->
-<!--    consumerInstance="Magento\Framework\MessageQueue\Consumer"-->

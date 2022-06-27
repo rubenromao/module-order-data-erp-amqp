@@ -1,49 +1,36 @@
 <?php
 /**
- * @package
+ * @package Rubenromao_ErpApiRequests
  * @autor rubenromao@gmail.com
  */
 declare(strict_types=1);
 
 namespace Rubenromao\ErpApiRequests\Observer;
 
-use Magento\Catalog\Model\ProductFactory;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Sales\Model\Order;
-use Psr\Log\LoggerInterface;
+use Rubenromao\ErpApiRequests\Model\Amqp\OrderPublisher;
 
 /**
- * Save order details to our custom table and publish the message.
+ * Intercepts the order object after save.
  */
 class AfterPlaceOrder implements ObserverInterface
 {
     /**
-     * @var Order
+     * @var OrderPublisher
      */
-    private $order;
-    /**
-     * @var ProductFactory
-     */
-    private $productFactory;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
+    private $orderPublisher;
 
     /**
-     * @param Order $order
-     * @param ProductFactory $productFactory
-     * @param LoggerInterface $logger
+     * AfterPlaceOrder constructor.
+     *
+     * @param OrderPublisher $orderPublisher
      */
     public function __construct(
-        Order $order,
-        ProductFactory $productFactory,
-        LoggerInterface $logger
+        OrderPublisher $orderPublisher,
     ) {
-        $this->order = $order;
-        $this->productFactory = $productFactory;
-        $this->logger = $logger;
+        $this->orderPublisher = $orderPublisher;
     }
 
     /**
@@ -53,21 +40,10 @@ class AfterPlaceOrder implements ObserverInterface
     public function execute(Observer $observer): void
     {
         $order = $observer->getEvent()->getOrder();
-        $orderId = $order->getIncrementId();
-
-        if($order->getState() == "new")
-        {
-            $this->logger->info("OrderId ".$orderId);
-            $this->logger->info($order->getState());
-
-            $product = $this->productFactory->create();
-            foreach($order->getAllVisibleItems() as $item ) {
-                // $productColl = $product->load($item->getProductId());
-                $productId = $item->getProductId();
-                $QtyOrdered = $item->getQtyOrdered();
-                $this->logger->info("Order Items ".$productId." Total Qty".$QtyOrdered);
-            }
-            $this->logger->info('Catched event succssfully');
+        // only proceed with publish message
+        // if it's a new order
+        if($order->getState() === Order::STATE_NEW) {
+            $this->orderPublisher->execute($order);
         }
     }
 }
