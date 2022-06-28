@@ -1,0 +1,24 @@
+<?php
+
+$collection = $this->getErpApiRequestsCollection();
+
+?>
+<table class="data table" id="test-data-table">
+    <caption class="table-caption">Vky Test Data</caption>
+    <thead>
+    <tr>
+        <th scope="col" class="col order-id"><?= __('Order ID') ?></th>
+        <th scope="col" class="col code"><?= __('Code') ?>r</th>
+        <th scope="col" class="col created_at"><?= __('Created At') ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($collection as $key => $data): ?>
+        <tr>
+            <td data-th="<?= __('Order ID') ?>" class="col order-id"><?= $data->getOrderId(); ?></td>
+            <td data-th="<?= __('Code') ?>" class="col code"><?= $data->getCode(); ?></td>
+            <td data-th="<?= __('Created At') ?>" class="col created_at"><?= $data->getCreatedAt(); ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>

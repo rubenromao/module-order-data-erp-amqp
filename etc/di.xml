@@ -1,4 +1,11 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Rubenromao\ErpApiRequests\Api\Amqp\FullOrderInterface" type="Rubenromao\ErpApiRequests\Model\Amqp\FullOrder" />
+    <preference for="Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface" type="Rubenromao\ErpApiRequests\Model\ErpApiRequests" />
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="ListErpApiCallsStatus" xsi:type="object">Rubenromao\ErpApiRequests\Console\Command\ListErpApiCalls</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
