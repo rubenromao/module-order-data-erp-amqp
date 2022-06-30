@@ -27,47 +27,47 @@ class ErpApiRequests extends AbstractDb
         $this->_init(self::ERP_API_CALLS_TABLE, 'order_id');
     }
 
-//    /**
-//     * Save API call response from ERP to database.
-//     *
-//     * @param $orderId
-//     * @param $code
-//     * @return $this
-//     */
-//    public function saveErpApiRequests($orderId, $code): ErpApiRequests
-//    {
-//        $connection = $this->getConnection();
-//        $bind = [
-//            'order_id' => (int)$orderId,
-//            'code' => (int)$code
-//        ];
-//        $connection->insert(
-//            $this->getTable(self::ERP_API_CALLS_TABLE),
-//            $bind
-//        );
-//
-//        return $this;
-//    }
-//
-//    /**
-//     * @param $orderId
-//     * @param $code
-//     * @return array
-//     */
-//    public function getErpApiRequests($orderId, $code): array
-//    {
-//        $select =
-//            $this->getConnection()->select()->from(
-//                $this->getTable(self::ERP_API_CALLS_TABLE),
-//                ['order_id', 'code', 'created_at']
-//            )->where(
-//                'order_id = :order_id and code = :code'
-//            );
-//        $bind = [
-//            'order_id' => (int)$orderId,
-//            'code' => (int)$code
-//        ];
-//
-//        return $this->getConnection()->fetchAll($select, $bind);
-//    }
+    /**
+     * Save API call response from ERP to database.
+     *
+     * @param $orderId
+     * @param $code
+     * @return $this
+     */
+    public function saveErpApiRequests($orderId, $code): ErpApiRequests
+    {
+        $connection = $this->getConnection();
+        $bind = [
+            'order_id' => (int)$orderId,
+            'code' => (int)$code
+        ];
+        $connection->insert(
+            $this->getTable(self::ERP_API_CALLS_TABLE),
+            $bind
+        );
+
+        return $this;
+    }
+
+    /**
+     * @param $orderId
+     * @param $code
+     * @return array
+     */
+    public function getErpApiRequests($orderId, $code): array
+    {
+        $select =
+            $this->getConnection()->select()->from(
+                $this->getTable(self::ERP_API_CALLS_TABLE),
+                ['order_id', 'code', 'created_at']
+            )->where(
+                'order_id = :order_id and code = :code'
+            );
+        $bind = [
+            'order_id' => (int)$orderId,
+            'code' => (int)$code
+        ];
+
+        return $this->getConnection()->fetchAll($select, $bind);
+    }
 }

@@ -5,11 +5,12 @@
  */
 declare(strict_types=1);
 
-namespace Rubenromao\ErpApiRequests\Model;
+namespace Rubenromao\ErpApiRequests\Model\ResourceModel;
 
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
 use Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterfaceFactory;
@@ -26,7 +27,7 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
     /**
      * @var ResourceModelErpApiRequests
      */
-    protected $modelErpApiRequestsFactory;
+    protected $resourceModelErpApiRequests;
     /**
      * @var CollectionErpApiRequestsFactory
      */
@@ -61,19 +62,21 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
     }
 
     /**
-     * @param $erpApiRequest
+     * @param ErpApiRequestsInterface $erpApiRequest
+     * @return ErpApiRequestsInterface
      * @throws CouldNotSaveException
      */
-    public function save($erpApiRequest)
+    public function save($orderId, $code): ErpApiRequestsInterface
     {
         try {
-            $this->resourceModelErpApiRequests->save($erpApiRequest);
+            $data = $this->resourceModelErpApiRequests->saveErpApiRequests($orderId, $code);
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(
                 __('Could not save the API request: %1', $exception->getMessage()),
                 $exception
             );
         }
+        return $data;
     }
 
     /**

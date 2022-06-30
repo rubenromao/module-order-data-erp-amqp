@@ -9,14 +9,9 @@ namespace Rubenromao\ErpApiRequests\Setup\Patch\Data;
 
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
-use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterfaceFactory;
 use Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface;
-//use Rubenromao\ErpApiRequests\Model\ErpApiRequestsRepository;
 
 /**
- * Class AddFirstRecordToErpApiRequestsTable
- * @package Rubenromao/ErpApiRequests\Setup\Patch\Data
- *
  * Add first dummy record to our custom table
  */
 class AddFirstRecordToErpApiRequestsTable implements DataPatchInterface
@@ -25,25 +20,17 @@ class AddFirstRecordToErpApiRequestsTable implements DataPatchInterface
     protected const CODE = 999;
 
     /**
-     * @var ErpApiRequestsInterfaceFactory
-     */
-    private $erpApiRequestsRepository;
-    /**
      * @var ErpApiRequestsRepositoryInterface
      */
-    private $erpApiRequestsInterface;
-    private ErpApiRequestsInterfaceFactory $erpApiRequestsFactory;
+    private $repositoryInterface;
 
     /**
-     * @param ErpApiRequestsRepositoryInterface $erpApiRequestsRepository
-     * @param ErpApiRequestsInterfaceFactory $erpApiRequestsFactory
+     * @param ErpApiRequestsRepositoryInterface $repositoryInterface
      */
     public function __construct(
-        ErpApiRequestsRepositoryInterface $erpApiRequestsRepository,
-        ErpApiRequestsInterfaceFactory $erpApiRequestsFactory
+        ErpApiRequestsRepositoryInterface $repositoryInterface
     ) {
-        $this->erpApiRequestsRepository = $erpApiRequestsRepository;
-        $this->erpApiRequestsFactory = $erpApiRequestsFactory;
+        $this->repositoryInterface = $repositoryInterface;
     }
 
     /**
@@ -52,10 +39,7 @@ class AddFirstRecordToErpApiRequestsTable implements DataPatchInterface
      */
     public function apply(): void
     {
-        $object = $this->erpApiRequestsFactory->create();
-        $object->setOrderId('0');
-        $object->setCode('999');
-        $this->erpApiRequestsRepository->save($object);
+        $this->repositoryInterface->save(self::ORDER_ID, self::CODE);
     }
 
     /**

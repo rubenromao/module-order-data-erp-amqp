@@ -9,7 +9,6 @@ namespace Rubenromao\ErpApiRequests\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
-use Rubenromao\ErpApiRequests\Model\ErpApiRequestsRepository;
 
 /**
  * Interface ErpApiRequestsRepositoryInterface
@@ -20,11 +19,11 @@ interface ErpApiRequestsRepositoryInterface
     /**
      * Save ERP Api Call.
      *
-     * @param ErpApiRequestsInterface $erpApiRequest
+     * @param $orderId
+     * @param $code
      * @return ErpApiRequestsInterface
      */
-    public function save(ErpApiRequestsInterface $erpApiRequest);
-//    public function save(ErpApiRequestsInterface $orderId, $code);
+    public function save($orderId, $code): ErpApiRequestsInterface;
 
     /**
      * Get list of API requests.
