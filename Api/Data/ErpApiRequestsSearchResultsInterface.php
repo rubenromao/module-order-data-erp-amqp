@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Rubenromao\ErpApiRequests\Api\Data;
 
 use Magento\Framework\Api\SearchResultsInterface;
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
 
 /**
  * Interface ErpApiRequestsSearchResultsInterface
@@ -18,15 +19,15 @@ interface ErpApiRequestsSearchResultsInterface extends SearchResultsInterface
     /**
      * Get attributes list.
      *
-     * @return ErpApiRequestsInterface[]
+     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface[]
      */
-    public function getItems(): array;
+    public function getItems();
 
     /**
      * Set attributes list.
      *
-     * @param ErpApiRequestsInterface[] $items
+     * @param \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface[] $items
      * @return $this
      */
-    public function setItems(array $items): ErpApiRequestsSearchResultsInterface;
+    public function setItems(array $items);
 }

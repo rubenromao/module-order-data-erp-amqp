@@ -1,8 +1,8 @@
 <?php
 
-namespace Rubenromao\ErpApiRequests\Controller\ErpSync\Items;
+namespace Rubenromao\ErpApiRequests\Controller;
 
-class Status extends \Magento\Framework\App\Action\Action
+class Items extends \Magento\Framework\App\Action\Action
 {
     public function execute()
     {

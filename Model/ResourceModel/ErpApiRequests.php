@@ -27,28 +27,28 @@ class ErpApiRequests extends AbstractDb
         $this->_init(self::ERP_API_CALLS_TABLE, 'order_id');
     }
 
-    /**
-     * Save API call response from ERP to database.
-     *
-     * @param $orderId
-     * @param $code
-     * @return $this
-     */
-    public function saveErpApiRequests($orderId, $code): ErpApiRequests
-    {
-        $connection = $this->getConnection();
-        $bind = [
-            'order_id' => (int)$orderId,
-            'code' => (int)$code
-        ];
-        $connection->insert(
-            $this->getTable(self::ERP_API_CALLS_TABLE),
-            $bind
-        );
-
-        return $this;
-    }
-
+//    /**
+//     * Save API call response from ERP to database.
+//     *
+//     * @param $orderId
+//     * @param $code
+//     * @return $this
+//     */
+//    public function saveErpApiRequests($orderId, $code): ErpApiRequests
+//    {
+//        $connection = $this->getConnection();
+//        $bind = [
+//            'order_id' => (int)$orderId,
+//            'code' => (int)$code
+//        ];
+//        $connection->insert(
+//            $this->getTable(self::ERP_API_CALLS_TABLE),
+//            $bind
+//        );
+//
+//        return $this;
+//    }
+//
 //    /**
 //     * @param $orderId
 //     * @param $code

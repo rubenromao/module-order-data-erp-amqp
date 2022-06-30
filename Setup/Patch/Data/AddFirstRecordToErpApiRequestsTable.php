@@ -9,7 +9,9 @@ namespace Rubenromao\ErpApiRequests\Setup\Patch\Data;
 
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
-use Rubenromao\ErpApiRequests\Model\ErpApiRequestsRepository;
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterfaceFactory;
+use Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface;
+//use Rubenromao\ErpApiRequests\Model\ErpApiRequestsRepository;
 
 /**
  * Class AddFirstRecordToErpApiRequestsTable
@@ -19,18 +21,29 @@ use Rubenromao\ErpApiRequests\Model\ErpApiRequestsRepository;
  */
 class AddFirstRecordToErpApiRequestsTable implements DataPatchInterface
 {
-    /**
-     * @var ErpApiRequestsRepository
-     */
-    private $erpApiRequestsRepository;
+    protected const ORDER_ID = 0;
+    protected const CODE = 999;
 
     /**
-     * @param ErpApiRequestsRepository $erpApiRequestsRepository
+     * @var ErpApiRequestsInterfaceFactory
+     */
+    private $erpApiRequestsRepository;
+    /**
+     * @var ErpApiRequestsRepositoryInterface
+     */
+    private $erpApiRequestsInterface;
+    private ErpApiRequestsInterfaceFactory $erpApiRequestsFactory;
+
+    /**
+     * @param ErpApiRequestsRepositoryInterface $erpApiRequestsRepository
+     * @param ErpApiRequestsInterfaceFactory $erpApiRequestsFactory
      */
     public function __construct(
-        ErpApiRequestsRepository $erpApiRequestsRepository
+        ErpApiRequestsRepositoryInterface $erpApiRequestsRepository,
+        ErpApiRequestsInterfaceFactory $erpApiRequestsFactory
     ) {
         $this->erpApiRequestsRepository = $erpApiRequestsRepository;
+        $this->erpApiRequestsFactory = $erpApiRequestsFactory;
     }
 
     /**
@@ -39,7 +52,10 @@ class AddFirstRecordToErpApiRequestsTable implements DataPatchInterface
      */
     public function apply(): void
     {
-        $this->erpApiRequestsRepository->save(0,999);
+        $object = $this->erpApiRequestsFactory->create();
+        $object->setOrderId('0');
+        $object->setCode('999');
+        $this->erpApiRequestsRepository->save($object);
     }
 
     /**

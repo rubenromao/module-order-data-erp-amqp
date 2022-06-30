@@ -3,7 +3,7 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="content">
-            <block class="Rubenromao\ErpApiRequests\Block\ListErpApiRequests"
+            <block class="Rubenromao\ErpApiRequests\Block\ErpItemsStatus"
                    name="list.erp.api.requests"
                    template="Rubenromao_ErpApiRequests::status.phtml">
             </block>

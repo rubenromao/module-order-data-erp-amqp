@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="standard">
-        <route id="erp_sync_items_status" frontName="erp_sync_items_status">
+        <route id="erp_items_status" frontName="erp_items_status">
             <module name="Rubenromao_ErpApiRequests" />
         </route>
     </router>
