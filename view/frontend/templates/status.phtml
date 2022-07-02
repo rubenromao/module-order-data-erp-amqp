@@ -1,12 +1,14 @@
 <?php
-/**
- *
- */
-$collection = $this->getErpApiRequestsCollection();
+declare(strict_types=1);
 
+use Rubenromao\ErpApiRequests\Block\ErpItemsStatus;
+
+/** @var ErpItemsStatus $data */
+
+$collection = $data->getErpApiRequestsCollection();
 ?>
 <table class="data table" id="test-data-table">
-    <caption class="table-caption">Vky Test Data</caption>
+    <caption class="table-caption"><?= __('ERP API Calls') ?></caption>
     <thead>
     <tr>
         <th scope="col" class="col order-id"><?= __('Order ID') ?></th>

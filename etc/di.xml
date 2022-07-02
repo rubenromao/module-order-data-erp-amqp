@@ -1,12 +1,17 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface" type="Rubenromao\ErpApiRequests\Model\ErpApiRequests" />
-    <preference for="Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface" type="Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequestsRepository" />
-    <preference for="Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface"
+                type="Rubenromao\ErpApiRequests\Model\ErpApiRequests" />
+    <preference for="Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface"
+                type="Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequestsRepository" />
+    <preference for="Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface"
+                type="Magento\Framework\Api\SearchResults" />
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="ListErpApiCallsStatus" xsi:type="object">Rubenromao\ErpApiRequests\Console\Command\ListErpApiCalls</item>
+                <item name="ListErpApiCallsStatus"
+                      xsi:type="object">Rubenromao\ErpApiRequests\Console\Command\ListErpApiCalls</item>
             </argument>
         </arguments>
     </type>
