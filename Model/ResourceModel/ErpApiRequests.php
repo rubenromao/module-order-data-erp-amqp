@@ -34,7 +34,7 @@ class ErpApiRequests extends AbstractDb
      * @param $code
      * @return $this
      */
-    public function saveErpApiRequests($orderId, $code): ErpApiRequests
+    public function saveErpApiRequests($orderId, $code)
     {
         $connection = $this->getConnection();
         $bind = [

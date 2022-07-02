@@ -36,13 +36,19 @@ class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
         AbstractDb $resourceCollection = null,
         array $data = []
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
      * @return void
      */
-    public function _construct()
+    public function _construct(): void
     {
         $this->_init(ResourceModel\ErpApiRequests::class);
     }
@@ -73,27 +79,27 @@ class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
 
     /**
      * @param $orderId
-     * @return mixed|ErpApiRequests
+     * @return ErpApiRequests
      */
-    public function setOrderId($orderId)
+    public function setOrderId($orderId): ErpApiRequests
     {
         return $this->setData(self::ORDER_ID, $orderId);
     }
 
     /**
      * @param $code
-     * @return mixed|ErpApiRequests
+     * @return ErpApiRequests
      */
-    public function setCode($code)
+    public function setCode($code): ErpApiRequests
     {
         return $this->setData(self::CODE, $code);
     }
 
     /**
      * @param $createdAt
-     * @return mixed|ErpApiRequests
+     * @return ErpApiRequests
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt($createdAt): ErpApiRequests
     {
         return $this->setData(self::CREATED_AT, $createdAt);
     }

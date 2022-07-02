@@ -21,9 +21,9 @@ interface ErpApiRequestsRepositoryInterface
      *
      * @param $orderId
      * @param $code
-     * @return ErpApiRequestsInterface
+     * @return mixed
      */
-    public function save($orderId, $code): ErpApiRequestsInterface;
+    public function save($orderId, $code);
 
     /**
      * Get list of API requests.

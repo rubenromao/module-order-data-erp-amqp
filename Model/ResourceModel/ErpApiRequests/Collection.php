@@ -5,9 +5,11 @@
  */
 declare(strict_types=1);
 
-namespace Rubenromao\ErpApiRequests\Model\ResourceModel\CustomOrderErpApi;
+namespace Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use Rubenromao\ErpApiRequests\Model\ErpApiRequests as ModelErpApiRequests;
+use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests as ResourceModelErpApiRequests;
 
 /**
  * Class Collection
@@ -20,11 +22,11 @@ class Collection extends AbstractCollection
      *
      * @return void
      */
-    protected function _construct()
+    protected function _construct(): void
     {
         $this->_init(
-            Rubenromao\ErpApiRequests\Model\ErpApiRequests::class,
-            Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests::class
+            ModelErpApiRequests::class,
+            ResourceModelErpApiRequests::class
         );
     }
 }

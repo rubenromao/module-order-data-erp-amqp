@@ -31,7 +31,7 @@ class ListErpApiCalls extends Command
     /**
      * @var ErpApiRequestsRepositoryInterface
      */
-    private $erpApiRequestsRepository;
+    private $repositoryInterface;
     /**
      * @var SearchCriteriaBuilder
      */
@@ -48,18 +48,18 @@ class ListErpApiCalls extends Command
     /**
      * Order Status constructor
      *
-     * @param ErpApiRequestsRepositoryInterface $erpApiRequestsRepository
+     * @param ErpApiRequestsRepositoryInterface $repositoryInterface
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param Filter $filter
      * @param SortOrder $sortOrder
      */
     public function __construct(
-        ErpApiRequestsRepositoryInterface $erpApiRequestsRepository,
-        SearchCriteriaBuilder             $searchCriteriaBuilder,
-        Filter                            $filter,
-        SortOrder                         $sortOrder
+        ErpApiRequestsRepositoryInterface $repositoryInterface,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        Filter $filter,
+        SortOrder $sortOrder
     ) {
-        $this->erpApiRequestsRepository = $erpApiRequestsRepository;
+        $this->repositoryInterface = $repositoryInterface;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->filter = $filter;
         $this->sortOrder = $sortOrder;
@@ -85,7 +85,7 @@ class ListErpApiCalls extends Command
     public function execute(InputInterface $input, OutputInterface $output): void
     {
         try {
-            $listType = $this->getListType($input) ?? 'eq';
+            $listType = $this->getListType($input);
 
             $filters[] = $this->filter
                 ->setField('code')
@@ -102,11 +102,11 @@ class ListErpApiCalls extends Command
                 ->setPageSize(self::LIMIT)
                 ->create();
 
-            $dataBatch = $this->erpApiRequestsRepository->getList($searchCriteria);
+            $dataBatch = $this->repositoryInterface->getList($searchCriteria);
 
-            foreach ($dataBatch as $data) {
-                print_r($data);
-            }
+//            foreach ($dataBatch as $data) {
+//                print_r($data);
+//            }
 
         } catch (InputException $e) {
             $output->writeln("Error: " . $e->getMessage());

@@ -10,13 +10,11 @@ namespace Rubenromao\ErpApiRequests\Model\ResourceModel;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
 use Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterfaceFactory;
 use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests as ResourceModelErpApiRequests;
-use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests\Collection;
-use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests\CollectionFactory as CollectionErpApiRequestsFactory;
+use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests\CollectionFactory;
 
 /**
  * Class ErpApiRequestsRepository
@@ -29,7 +27,7 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
      */
     protected $resourceModelErpApiRequests;
     /**
-     * @var CollectionErpApiRequestsFactory
+     * @var CollectionFactory
      */
     protected $collectionFactory;
     /**
@@ -45,13 +43,13 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
      * ErpApiRequestsRepository constructor.
      *
      * @param ResourceModelErpApiRequests $resourceModelErpApiRequests
-     * @param CollectionErpApiRequestsFactory $collectionFactory
+     * @param CollectionFactory $collectionFactory
      * @param ErpApiRequestsSearchResultsInterfaceFactory $searchResultsFactory
      * @param CollectionProcessorInterface $collectionProcessor
      */
     public function __construct(
         ResourceModelErpApiRequests $resourceModelErpApiRequests,
-        CollectionErpApiRequestsFactory $collectionFactory,
+        CollectionFactory $collectionFactory,
         ErpApiRequestsSearchResultsInterfaceFactory $searchResultsFactory,
         CollectionProcessorInterface $collectionProcessor
     ) {
@@ -62,21 +60,21 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
     }
 
     /**
-     * @param ErpApiRequestsInterface $erpApiRequest
-     * @return ErpApiRequestsInterface
+     * @param $orderId
+     * @param $code
+     * @return void
      * @throws CouldNotSaveException
      */
-    public function save($orderId, $code): ErpApiRequestsInterface
+    public function save($orderId, $code)
     {
         try {
-            $data = $this->resourceModelErpApiRequests->saveErpApiRequests($orderId, $code);
+            $this->resourceModelErpApiRequests->saveErpApiRequests($orderId, $code);
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(
                 __('Could not save the API request: %1', $exception->getMessage()),
                 $exception
             );
         }
-        return $data;
     }
 
     /**
@@ -85,7 +83,6 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
-        /** @var \Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests\Collection $collection */
         $collection = $this->collectionFactory->create();
         $this->collectionProcessor->process($searchCriteria, $collection);
         $collection->load();
