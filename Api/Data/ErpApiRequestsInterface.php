@@ -18,35 +18,35 @@ interface ErpApiRequestsInterface
     public const CREATED_AT = 'created_at';
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getOrderId();
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getCode();
 
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getCreatedAt();
 
     /**
-     * @param $orderId
-     * @return mixed
+     * @param int $orderId
+     * @return int
      */
     public function setOrderId($orderId);
 
     /**
-     * @param $code
-     * @return mixed
+     * @param int $code
+     * @return int
      */
     public function setCode($code);
 
     /**
      * @param $createdAt
-     * @return ErpApiRequestsInterface
+     * @return string|null
      */
     public function setCreatedAt($createdAt);
 }

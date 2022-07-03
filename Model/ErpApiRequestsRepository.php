@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Rubenromao\ErpApiRequests\Model\ResourceModel;
+namespace Rubenromao\ErpApiRequests\Model;
 
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
@@ -60,15 +60,14 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
     }
 
     /**
-     * @param $orderId
-     * @param $code
-     * @return void
+     * @param $apiRequests
+     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface|void
      * @throws CouldNotSaveException
      */
-    public function save($orderId, $code)
+    public function save($apiRequests)
     {
         try {
-            $this->resourceModelErpApiRequests->saveErpApiRequests($orderId, $code);
+            $this->resourceModelErpApiRequests->save($apiRequests);
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(
                 __('Could not save the API request: %1', $exception->getMessage()),
@@ -88,7 +87,7 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
         $collection->load();
         $searchResult = $this->searchResultsFactory->create();
         $searchResult->setSearchCriteria($searchCriteria);
-        $searchResult->setItems($collection->getItems());
+        $searchResult->setItems([$collection->getItems()]);
         $searchResult->setTotalCount($collection->getSize());
 
         return $searchResult;

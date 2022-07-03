@@ -16,15 +16,16 @@ use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 class ErpApiRequests extends AbstractDb
 {
     protected const ERP_API_CALLS_TABLE = 'erp_api_requests';
+    protected const ERP_API_CALLS_ID_FIELD = 'order_id';
 
     /**
      * Define resource model
      *
      * @return void
      */
-    protected function _construct()
+    protected function _construct(): void
     {
-        $this->_init(self::ERP_API_CALLS_TABLE, 'order_id');
+        $this->_init(self::ERP_API_CALLS_TABLE, self::ERP_API_CALLS_ID_FIELD);
     }
 
     /**
@@ -34,12 +35,12 @@ class ErpApiRequests extends AbstractDb
      * @param $code
      * @return $this
      */
-    public function saveErpApiRequests($orderId, $code)
+    public function saveErpApiRequest($orderId, $code): static
     {
         $connection = $this->getConnection();
         $bind = [
-            'order_id' => (int)$orderId,
-            'code' => (int)$code
+            'order_id' => (int) $orderId,
+            'code' => (int) $code
         ];
         $connection->insert(
             $this->getTable(self::ERP_API_CALLS_TABLE),
@@ -50,23 +51,22 @@ class ErpApiRequests extends AbstractDb
     }
 
     /**
-     * @param $orderId
-     * @param $code
+     * @param int $orderId
+     * @param int $code
      * @return array
      */
-    public function getErpApiRequests($orderId, $code): array
+    public function getAllErpApiRequests(): array
     {
-        $select =
-            $this->getConnection()->select()->from(
+        $select = $this->getConnection()->select(
+            )->from(
                 $this->getTable(self::ERP_API_CALLS_TABLE),
-                ['order_id', 'code', 'created_at']
-            )->where(
-                'order_id = :order_id and code = :code'
+                [
+                    'order_id',
+                    'code',
+                    'created_at'
+                ]
             );
-        $bind = [
-            'order_id' => (int)$orderId,
-            'code' => (int)$code
-        ];
+        $bind = [];
 
         return $this->getConnection()->fetchAll($select, $bind);
     }

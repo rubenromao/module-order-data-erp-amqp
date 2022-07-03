@@ -19,15 +19,15 @@ interface ErpApiRequestsSearchResultsInterface extends SearchResultsInterface
     /**
      * Get attributes list.
      *
-     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface[]
+     * @return array
      */
     public function getItems();
 
     /**
      * Set attributes list.
      *
-     * @param \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface[] $items
-     * @return $this
+     * @param array $items
+     * @return ErpApiRequestsSearchResultsInterface
      */
     public function setItems(array $items);
 }

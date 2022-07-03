@@ -7,9 +7,8 @@ declare(strict_types=1);
 
 namespace Rubenromao\ErpApiRequests\Setup\Patch\Data;
 
-use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
-use Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface;
+use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests;
 
 /**
  * Add first dummy record to our custom table
@@ -20,26 +19,26 @@ class AddFirstRecordToErpApiRequestsTable implements DataPatchInterface
     protected const CODE = 999;
 
     /**
-     * @var ErpApiRequestsRepositoryInterface
+     * @var ErpApiRequests
      */
-    private $repositoryInterface;
+    private ErpApiRequests $resourceModel;
 
     /**
-     * @param ErpApiRequestsRepositoryInterface $repositoryInterface
+     * AddFirstRecordToErpApiRequestsTable constructor
+     *
+     * @param ErpApiRequests $resourceModel
      */
-    public function __construct(
-        ErpApiRequestsRepositoryInterface $repositoryInterface
-    ) {
-        $this->repositoryInterface = $repositoryInterface;
+    public function __construct(ErpApiRequests $resourceModel)
+    {
+        $this->resourceModel = $resourceModel;
     }
 
     /**
-     * @return void
-     * @throws CouldNotSaveException
+     * {@inheritdoc}
      */
-    public function apply(): void
+    public function apply()
     {
-        $this->repositoryInterface->save(self::ORDER_ID, self::CODE);
+        $this->resourceModel->saveErpApiRequest(self::ORDER_ID, self::CODE);
     }
 
     /**

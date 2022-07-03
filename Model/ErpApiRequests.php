@@ -21,6 +21,14 @@ use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
 class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
 {
     /**
+     * @return void
+     */
+    public function _construct()
+    {
+        $this->_init(ResourceModel\ErpApiRequests::class);
+    }
+
+    /**
      * ErpApiRequests constructor.
      *
      * @param Context $context
@@ -43,14 +51,6 @@ class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
             $resourceCollection,
             $data
         );
-    }
-
-    /**
-     * @return void
-     */
-    public function _construct()
-    {
-        $this->_init(ResourceModel\ErpApiRequests::class);
     }
 
     /**

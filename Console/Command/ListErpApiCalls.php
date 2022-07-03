@@ -8,8 +8,11 @@ declare(strict_types=1);
 namespace Rubenromao\ErpApiRequests\Console\Command;
 
 use Magento\Framework\Api\Filter;
+use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SortOrder;
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -31,7 +34,7 @@ class ListErpApiCalls extends Command
     /**
      * @var ErpApiRequestsRepositoryInterface
      */
-    private $repositoryInterface;
+    private $erpRepositoryInterface;
     /**
      * @var SearchCriteriaBuilder
      */
@@ -44,24 +47,45 @@ class ListErpApiCalls extends Command
      * @var Filter
      */
     private $filter;
+    /**
+     * @var SearchCriteriaInterface
+     */
+    private $searchCriteriaInterface;
+    /**
+     * @var FilterGroup
+     */
+    private FilterGroup $filterGroup;
+    /**
+     * @var ErpApiRequestsSearchResultsInterface
+     */
+    private $erpApiRequestsSearchResult;
 
     /**
-     * Order Status constructor
+     * ListErpApiCalls constructor
      *
-     * @param ErpApiRequestsRepositoryInterface $repositoryInterface
+     * @param ErpApiRequestsRepositoryInterface $erpRepositoryInterface
+     * @param ErpApiRequestsSearchResultsInterface $erpApiRequestsSearchResult
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param SearchCriteriaInterface $searchCriteriaInterface
      * @param Filter $filter
+     * @param FilterGroup $filterGroup
      * @param SortOrder $sortOrder
      */
     public function __construct(
-        ErpApiRequestsRepositoryInterface $repositoryInterface,
+        ErpApiRequestsRepositoryInterface $erpRepositoryInterface,
+        ErpApiRequestsSearchResultsInterface $erpApiRequestsSearchResult,
         SearchCriteriaBuilder $searchCriteriaBuilder,
+        SearchCriteriaInterface $searchCriteriaInterface,
         Filter $filter,
+        FilterGroup $filterGroup,
         SortOrder $sortOrder
     ) {
-        $this->repositoryInterface = $repositoryInterface;
+        $this->erpRepositoryInterface = $erpRepositoryInterface;
+        $this->erpApiRequestsSearchResult = $erpApiRequestsSearchResult;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->searchCriteriaInterface = $searchCriteriaInterface;
         $this->filter = $filter;
+        $this->filterGroup = $filterGroup;
         $this->sortOrder = $sortOrder;
         parent::__construct(self::COMMAND);
     }
@@ -87,26 +111,36 @@ class ListErpApiCalls extends Command
         try {
             $listType = $this->getListType($input);
 
-            $filters[] = $this->filter
+            /** @var Filter[] $filters */
+            $this->filter
                 ->setField('code')
-                ->setValue(200)
-                ->setConditionType("$listType");
+                ->setConditionType("$listType")
+                ->setValue(999);
 
-            $sort[] = $this->sortOrder
+            $this->sortOrder
                 ->setField("order_id")
                 ->setDirection("ASC");
 
-            $searchCriteria = $this->searchCriteriaBuilder
-                ->setFilterGroups($filters)
-                ->setSortOrders($sort)
-                ->setPageSize(self::LIMIT)
-                ->create();
+            $searchCriteria = $this->searchCriteriaInterface
+                ->setFilterGroups([$this->filterGroup->setFilters([$this->filter])])
+                ->setSortOrders([$this->sortOrder])
+                ->setPageSize(self::LIMIT);
 
-            $dataBatch = $this->repositoryInterface->getList($searchCriteria);
+//            $searchCriteria = $this->searchCriteriaBuilder
+//                ->addFilters($filters)
+//                ->setSortOrders($sort)
+//                ->setPageSize(self::LIMIT)
+//                ->create();
 
-//            foreach ($dataBatch as $data) {
-//                print_r($data);
-//            }
+//            $dataBatch = $this->erpRepositoryInterface->getList($searchCriteria);
+
+            $items = $this->erpRepositoryInterface->getList($searchCriteria)->getItems();
+            //$this->erpApiRequestsSearchResult->getItems();
+            //var_dump($searchCriteria);exit;
+//var_dump($items);exit;
+            foreach ($items as $item) {
+                var_dump($item);exit;
+            }
 
         } catch (InputException $e) {
             $output->writeln("Error: " . $e->getMessage());
