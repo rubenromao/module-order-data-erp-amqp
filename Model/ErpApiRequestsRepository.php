@@ -82,7 +82,6 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria)
     {
-        /** @var \Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests\Collection $collection */
         $collection = $this->collectionFactory->create();
         $this->collectionProcessor->process($searchCriteria, $collection);
         $collection->load();
