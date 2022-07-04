@@ -144,8 +144,8 @@ class ListErpApiCalls extends Command
 //            $dataBatch = $this->erpRepositoryInterface->getList($searchCriteria);
 
             //var_dump($searchCriteria);exit;
-            $items = $this->erpRepositoryInterface->getList($searchCriteria);
-            $this->erpApiRequestsSearchResult->getItems();
+            $this->erpRepositoryInterface->getList($searchCriteria);
+            $items = $this->erpApiRequestsSearchResult->getItems();
 
             //var_dump($items);exit;
             foreach ($items as $item) {
