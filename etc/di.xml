@@ -5,8 +5,8 @@
                 type="Rubenromao\ErpApiRequests\Model\ErpApiRequests" />
     <preference for="Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface"
                 type="Rubenromao\ErpApiRequests\Model\ErpApiRequestsRepository" />
-<!--    <preference for="Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface"-->
-<!--                type="Rubenromao\ErpApiRequests\Model\ErpApiRequestsSearchResults" />-->
+    <preference for="Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface"
+                type="Rubenromao\ErpApiRequests\Model\ErpApiRequestsSearchResults" />
     <type name="Magento\Framework\Console\CommandList">
         <arguments>
             <argument name="commands" xsi:type="array">

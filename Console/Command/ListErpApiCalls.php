@@ -12,13 +12,16 @@ use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SortOrder;
-use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
+use Magento\Framework\Exception\InputException;
+
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Magento\Framework\Exception\InputException;
+
+use Rubenromao\ErpApiRequests\Model\ErpApiRequestsRepository;
 use Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface;
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
 
 /**
  * Command to list the 10 last failed or success api calls to erp
@@ -35,6 +38,10 @@ class ListErpApiCalls extends Command
      * @var ErpApiRequestsRepositoryInterface
      */
     private $erpRepositoryInterface;
+    /**
+     * @var ErpApiRequestsRepository
+     */
+    private $erpRepository;
     /**
      * @var SearchCriteriaBuilder
      */
@@ -73,6 +80,7 @@ class ListErpApiCalls extends Command
      */
     public function __construct(
         ErpApiRequestsRepositoryInterface $erpRepositoryInterface,
+        ErpApiRequestsRepository $erpRepository,
         ErpApiRequestsSearchResultsInterface $erpApiRequestsSearchResult,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         SearchCriteriaInterface $searchCriteriaInterface,
@@ -81,6 +89,7 @@ class ListErpApiCalls extends Command
         SortOrder $sortOrder
     ) {
         $this->erpRepositoryInterface = $erpRepositoryInterface;
+        $this->erpRepository = $erpRepository;
         $this->erpApiRequestsSearchResult = $erpApiRequestsSearchResult;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->searchCriteriaInterface = $searchCriteriaInterface;
@@ -112,18 +121,18 @@ class ListErpApiCalls extends Command
             $listType = $this->getListType($input);
 
             /** @var Filter[] $filters */
-            $this->filter
+            $filters[] = $this->filter
                 ->setField('code')
                 ->setConditionType("$listType")
                 ->setValue(999);
 
-            $this->sortOrder
+            $sort[] = $this->sortOrder
                 ->setField("order_id")
                 ->setDirection("ASC");
 
             $searchCriteria = $this->searchCriteriaInterface
-                ->setFilterGroups([$this->filterGroup->setFilters([$this->filter])])
-                ->setSortOrders([$this->sortOrder])
+                ->setFilterGroups([$this->filterGroup->setFilters($filters)])
+                ->setSortOrders($sort)
                 ->setPageSize(self::LIMIT);
 
 //            $searchCriteria = $this->searchCriteriaBuilder
@@ -134,10 +143,11 @@ class ListErpApiCalls extends Command
 
 //            $dataBatch = $this->erpRepositoryInterface->getList($searchCriteria);
 
-            $items = $this->erpRepositoryInterface->getList($searchCriteria)->getItems();
-            //$this->erpApiRequestsSearchResult->getItems();
             //var_dump($searchCriteria);exit;
-//var_dump($items);exit;
+            $items = $this->erpRepositoryInterface->getList($searchCriteria);
+            $this->erpApiRequestsSearchResult->getItems();
+
+            //var_dump($items);exit;
             foreach ($items as $item) {
                 var_dump($item);exit;
             }

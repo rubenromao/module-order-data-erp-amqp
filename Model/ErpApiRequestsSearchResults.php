@@ -11,11 +11,8 @@ use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
 use Magento\Framework\Api\SearchResults;
 
 /**
- * Service Data Object with Customer search results.
+ * Service Data Object with ERP API Calls search results.
  */
-class ErpApiRequestsSearchResults extends SearchResults
+class ErpApiRequestsSearchResults extends SearchResults implements ErpApiRequestsSearchResultsInterface
 {
-    /**
-     * this allows us to get the items using the search contract.
-     */
 }

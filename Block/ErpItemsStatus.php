@@ -5,7 +5,7 @@ namespace Rubenromao\ErpApiRequests\Block;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Rubenromao\ErpApiRequests\Model\ErpApiRequests;
+use Rubenromao\ErpApiRequests\Model\ErpApiRequestsFactory;
 
 /**
  * List block
@@ -13,20 +13,21 @@ use Rubenromao\ErpApiRequests\Model\ErpApiRequests;
 class ErpItemsStatus extends Template
 {
     /**
-     * @var ErpApiRequests
+     * @var ErpApiRequestsFactory
      */
     private $erpModel;
 
     /**
      * @param Context $context
-     * @param ErpApiRequests $test
+     * @param ErpApiRequestsFactory $test
      */
     public function __construct(
         Context $context,
-        ErpApiRequests $test
+        ErpApiRequestsFactory $test,
+        $data = []
     ) {
         $this->erpModel = $test;
-        parent::__construct($context);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -44,6 +45,6 @@ class ErpItemsStatus extends Template
      */
     public function getErpApiRequestsCollection()
     {
-        return $this->erpModel->getCollection()->getItems();
+        return $this->erpModel->create()->getCollection()->getItems();
     }
 }

@@ -28,7 +28,7 @@ interface ErpApiRequestsRepositoryInterface
      * Get list of API requests.
      *
      * @param SearchCriteriaInterface $searchCriteria
-     * @return ErpApiRequestsSearchResultsInterface
+     * @return mixed
      */
     public function getList(SearchCriteriaInterface $searchCriteria);
 }
