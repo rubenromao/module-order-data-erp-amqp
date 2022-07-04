@@ -130,26 +130,23 @@ class ListErpApiCalls extends Command
                 ->setField("order_id")
                 ->setDirection("ASC");
 
-//            $searchCriteria = $this->searchCriteriaInterface
-//                ->setFilterGroups([$this->filterGroup->setFilters([$this->filter])])
-//                ->setSortOrders([$this->sortOrder])
-//                ->setPageSize(self::LIMIT);
-
-            $searchCriteria = $this->searchCriteriaBuilder
-                ->addFilters($filters)
+            $searchCriteria = $this->searchCriteriaInterface
+                ->setFilterGroups([$this->filterGroup->setFilters($filters)])
                 ->setSortOrders($sort)
-                ->setPageSize(self::LIMIT)
-                ->create();
+                ->setPageSize(self::LIMIT);
 
-//            $dataBatch = $this->erpRepositoryInterface->getList($searchCriteria);
+//            $searchCriteria = $this->searchCriteriaBuilder
+//                ->addFilters($filters)
+//                ->setSortOrders($sort)
+//                ->setPageSize(self::LIMIT)
+//                ->create();
 
-            //var_dump($searchCriteria);exit;
-            $items = $this->erpRepositoryInterface->getList($searchCriteria)->getItems();
-            //$this->erpApiRequestsSearchResult->getItems();
-
-            //var_dump($items);exit;
-            foreach ($items as $item) {
-                var_dump($item);exit;
+            if ($items = $this->erpRepositoryInterface->getList($searchCriteria)->getItems()) {
+                foreach ($items as $item) {
+                    echo $item["order_id"] . $item["code"] . $item["created_at"] . PHP_EOL;
+                }
+            } else {
+                echo 'No records found' . PHP_EOL;
             }
 
         } catch (InputException $e) {
