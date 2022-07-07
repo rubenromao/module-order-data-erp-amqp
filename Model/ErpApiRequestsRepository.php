@@ -64,7 +64,12 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
      * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface|void
      * @throws CouldNotSaveException
      */
-    public function save($apiRequests)
+    /**
+     * @param $apiRequests
+     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface
+     * @throws CouldNotSaveException
+     */
+    public function save($apiRequests): \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface
     {
         try {
             $this->resourceModelErpApiRequests->save($apiRequests);
@@ -78,9 +83,9 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
 
     /**
      * @param SearchCriteriaInterface $searchCriteria
-     * @return mixed
+     * @return ErpApiRequestsSearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $searchCriteria)
+    public function getList(SearchCriteriaInterface $searchCriteria): \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface
     {
         $collection = $this->collectionFactory->create();
         $this->collectionProcessor->process($searchCriteria, $collection);
@@ -93,30 +98,3 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
         return $searchResult;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

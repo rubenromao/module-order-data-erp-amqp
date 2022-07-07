@@ -2,7 +2,7 @@
 
 namespace Rubenromao\ErpApiRequests\Controller;
 
-class Items extends \Magento\Framework\App\Action\Action
+class Index extends \Magento\Framework\App\Action\Action
 {
     public function execute()
     {

@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace Rubenromao\ErpApiRequests\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
 
 /**
@@ -19,16 +20,16 @@ interface ErpApiRequestsRepositoryInterface
     /**
      * Save ERP Api Call.
      *
-     * @param \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface $erpApiRequests
-     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface
+     * @param ErpApiRequestsInterface $erpApiRequests
+     * @return ErpApiRequestsInterface
      */
-    public function save(Data\ErpApiRequestsInterface $erpApiRequests);
+    public function save(ErpApiRequestsInterface $erpApiRequests): ErpApiRequestsInterface;
 
     /**
      * Get list of API requests.
      *
      * @param SearchCriteriaInterface $searchCriteria
-     * @return mixed
+     * @return ErpApiRequestsSearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $searchCriteria);
+    public function getList(SearchCriteriaInterface $searchCriteria): ErpApiRequestsSearchResultsInterface;
 }

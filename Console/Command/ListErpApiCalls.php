@@ -30,7 +30,7 @@ class ListErpApiCalls extends Command
 {
     protected const COMMAND = 'erp:list';
     protected const PARAM_LIST_TYPE = 'code';
-    protected const PASS = 'pass';
+    protected const PASS = "pass";
     protected const FAIL = 'fail';
     protected const LIMIT = 10;
 
@@ -71,6 +71,7 @@ class ListErpApiCalls extends Command
      * ListErpApiCalls constructor
      *
      * @param ErpApiRequestsRepositoryInterface $erpRepositoryInterface
+     * @param ErpApiRequestsRepository $erpRepository
      * @param ErpApiRequestsSearchResultsInterface $erpApiRequestsSearchResult
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param SearchCriteriaInterface $searchCriteriaInterface
@@ -122,9 +123,9 @@ class ListErpApiCalls extends Command
 
             /** @var Filter[] $filters */
             $filters[] = $this->filter
-                ->setField('code')
+                ->setField(self::PARAM_LIST_TYPE)
                 ->setConditionType("$listType")
-                ->setValue(999);
+                ->setValue(200);
 
             $sort[] = $this->sortOrder
                 ->setField("order_id")
@@ -135,15 +136,13 @@ class ListErpApiCalls extends Command
                 ->setSortOrders($sort)
                 ->setPageSize(self::LIMIT);
 
-//            $searchCriteria = $this->searchCriteriaBuilder
-//                ->addFilters($filters)
-//                ->setSortOrders($sort)
-//                ->setPageSize(self::LIMIT)
-//                ->create();
-
             if ($items = $this->erpRepositoryInterface->getList($searchCriteria)->getItems()) {
                 foreach ($items as $item) {
-                    echo $item["order_id"] . $item["code"] . $item["created_at"] . PHP_EOL;
+                    $output->writeln(
+                        "Order ID: " . $item["order_id"] .
+                        " | Code: "  . $item["code"] .
+                        " | Created At: " . $item["created_at"]
+                    );
                 }
             } else {
                 echo 'No records found' . PHP_EOL;
@@ -162,7 +161,7 @@ class ListErpApiCalls extends Command
     protected function getListType(InputInterface $input): string
     {
         $listType = $input->getOption(self::PARAM_LIST_TYPE);
-        if ($listType === self::PASS || $listType === null) {
+        if ($listType == self::PASS || $listType === '') {
             // code 200
             $listType = 'eq';
         } else {
