@@ -10,6 +10,7 @@ namespace Rubenromao\ErpApiRequests\Model;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
 use Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterfaceFactory;
@@ -61,20 +62,20 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
 
     /**
      * @param $apiRequests
-     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface|void
+     * @return ErpApiRequestsInterface|void
      * @throws CouldNotSaveException
      */
     /**
-     * @param $apiRequests
-     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface
+     * @param $erpApiRequests
+     * @return ErpApiRequestsInterface
      * @throws CouldNotSaveException
      */
-    public function save($apiRequests): \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface
+    public function save($erpApiRequests): ErpApiRequestsInterface
     {
         try {
-            $this->resourceModelErpApiRequests->save($apiRequests);
+            $this->resourceModelErpApiRequests->save($erpApiRequests);
         } catch (\Exception $exception) {
-            throw new CouldNotSaveException(
+            return throw new CouldNotSaveException(
                 __('Could not save the API request: %1', $exception->getMessage()),
                 $exception
             );
@@ -85,7 +86,7 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
      * @param SearchCriteriaInterface $searchCriteria
      * @return ErpApiRequestsSearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): ErpApiRequestsSearchResultsInterface
     {
         $collection = $this->collectionFactory->create();
         $this->collectionProcessor->process($searchCriteria, $collection);

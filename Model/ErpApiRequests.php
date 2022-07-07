@@ -56,7 +56,7 @@ class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
     /**
      * @return int
      */
-    public function getOrderId()
+    public function getOrderId(): int
     {
         return $this->getData(self::ORDER_ID);
     }
@@ -64,42 +64,42 @@ class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
     /**
      * @return int
      */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->getData(self::CODE);
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): ?string
     {
         return $this->getData(self::CREATED_AT);
     }
 
     /**
      * @param $orderId
-     * @return mixed|ErpApiRequests
+     * @return ErpApiRequests
      */
-    public function setOrderId($orderId)
+    public function setOrderId($orderId): ErpApiRequests
     {
         return $this->setData(self::ORDER_ID, $orderId);
     }
 
     /**
      * @param $code
-     * @return mixed|ErpApiRequests
+     * @return ErpApiRequests
      */
-    public function setCode($code)
+    public function setCode($code): ErpApiRequests
     {
         return $this->setData(self::CODE, $code);
     }
 
     /**
      * @param $createdAt
-     * @return mixed|ErpApiRequestsInterface
+     * @return ErpApiRequests
      */
-    public function setCreatedAt($createdAt): ErpApiRequestsInterface
+    public function setCreatedAt($createdAt): ErpApiRequests
     {
         return $this->setData(self::CREATED_AT, $createdAt);
     }

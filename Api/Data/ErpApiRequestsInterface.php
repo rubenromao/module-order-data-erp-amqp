@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Rubenromao\ErpApiRequests\Api\Data;
 
+use Rubenromao\ErpApiRequests\Model\ErpApiRequests;
+
 /**
  * Interface ErpApiRequests
  * @package Rubenromao_ErpApiRequests
@@ -20,33 +22,33 @@ interface ErpApiRequestsInterface
     /**
      * @return int
      */
-    public function getOrderId();
+    public function getOrderId(): int;
 
     /**
      * @return int
      */
-    public function getCode();
+    public function getCode(): int;
 
     /**
      * @return string|null
      */
-    public function getCreatedAt();
+    public function getCreatedAt(): ?string;
 
     /**
      * @param int $orderId
-     * @return int
+     * @return ErpApiRequests
      */
-    public function setOrderId($orderId);
+    public function setOrderId(int $orderId): ErpApiRequests;
 
     /**
      * @param int $code
-     * @return int
+     * @return ErpApiRequests
      */
-    public function setCode($code);
+    public function setCode(int $code): ErpApiRequests;
 
     /**
      * @param $createdAt
-     * @return string|null
+     * @return ErpApiRequests
      */
-    public function setCreatedAt($createdAt);
+    public function setCreatedAt($createdAt): ErpApiRequests;
 }

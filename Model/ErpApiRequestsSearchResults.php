@@ -13,6 +13,6 @@ use Magento\Framework\Api\SearchResults;
 /**
  * Service Data Object with ERP API Calls search results.
  */
-class ErpApiRequestsSearchResults extends SearchResults implements \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface
+class ErpApiRequestsSearchResults extends SearchResults implements ErpApiRequestsSearchResultsInterface
 {
 }
