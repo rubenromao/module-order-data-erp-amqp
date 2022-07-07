@@ -9,7 +9,6 @@ namespace Rubenromao\ErpApiRequests\Console\Command;
 
 use Magento\Framework\Api\Filter;
 use Magento\Framework\Api\Search\FilterGroup;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Exception\InputException;
@@ -19,9 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Rubenromao\ErpApiRequests\Model\ErpApiRequestsRepository;
 use Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface;
-use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
 
 /**
  * Command to list the 10 last failed or success api calls to erp
@@ -39,14 +36,6 @@ class ListErpApiCalls extends Command
      */
     private $erpRepositoryInterface;
     /**
-     * @var ErpApiRequestsRepository
-     */
-    private $erpRepository;
-    /**
-     * @var SearchCriteriaBuilder
-     */
-    private $searchCriteriaBuilder;
-    /**
      * @var SortOrder
      */
     private $sortOrder;
@@ -62,18 +51,11 @@ class ListErpApiCalls extends Command
      * @var FilterGroup
      */
     private FilterGroup $filterGroup;
-    /**
-     * @var ErpApiRequestsSearchResultsInterface
-     */
-    private $erpApiRequestsSearchResult;
 
     /**
      * ListErpApiCalls constructor
      *
      * @param ErpApiRequestsRepositoryInterface $erpRepositoryInterface
-     * @param ErpApiRequestsRepository $erpRepository
-     * @param ErpApiRequestsSearchResultsInterface $erpApiRequestsSearchResult
-     * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param SearchCriteriaInterface $searchCriteriaInterface
      * @param Filter $filter
      * @param FilterGroup $filterGroup
@@ -81,18 +63,12 @@ class ListErpApiCalls extends Command
      */
     public function __construct(
         ErpApiRequestsRepositoryInterface $erpRepositoryInterface,
-        ErpApiRequestsRepository $erpRepository,
-        ErpApiRequestsSearchResultsInterface $erpApiRequestsSearchResult,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
         SearchCriteriaInterface $searchCriteriaInterface,
         Filter $filter,
         FilterGroup $filterGroup,
         SortOrder $sortOrder
     ) {
         $this->erpRepositoryInterface = $erpRepositoryInterface;
-        $this->erpRepository = $erpRepository;
-        $this->erpApiRequestsSearchResult = $erpApiRequestsSearchResult;
-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
         $this->searchCriteriaInterface = $searchCriteriaInterface;
         $this->filter = $filter;
         $this->filterGroup = $filterGroup;
@@ -103,7 +79,7 @@ class ListErpApiCalls extends Command
     /**
      * @return void
      */
-    public function configure()
+    public function configure(): void
     {
         $arguments = $this->getArgs();
         $this->setName(self::COMMAND)
@@ -175,7 +151,7 @@ class ListErpApiCalls extends Command
     /**
      * @return array
      */
-    protected function getArgs()
+    protected function getArgs(): array
     {
         $args   = [];
         $args[] = new InputOption(
