@@ -23,7 +23,7 @@ class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
     /**
      * @return void
      */
-    public function _construct()
+    public function _construct(): void
     {
         $this->_init(ResourceModel\ErpApiRequests::class);
     }
