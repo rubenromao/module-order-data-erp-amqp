@@ -11,6 +11,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $this->_view->renderLayout();
     }
 }
+
 //class Index extends \Magento\Framework\App\Action\Action
 //{
 //    protected $_pageFactory;
@@ -20,7 +21,7 @@ class Index extends \Magento\Framework\App\Action\Action
 //    public function __construct(
 //        \Magento\Framework\App\Action\Context $context,
 //        \Magento\Framework\View\Result\PageFactory $pageFactory,
-//        \Rubenromao\ErpApiRequests\Model\ErpApiRequestsFactory $postFactory
+//        \Rubenromao\ErpApiRequests\Model\Api\ErpApiRequestsFactory $postFactory
 //    )
 //    {
 //        $this->_pageFactory = $pageFactory;

@@ -5,7 +5,7 @@ namespace Rubenromao\ErpApiRequests\Block;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Rubenromao\ErpApiRequests\Model\ErpApiRequestsFactory;
+use Rubenromao\ErpApiRequests\Model\Api\ErpApiRequestsFactory;
 
 /**
  * List block
