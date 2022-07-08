@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
-use Rubenromao\ErpApiRequests\Model\ErpApiRequests as ModelErpApiRequests;
+use Rubenromao\ErpApiRequests\Model\Api\ErpApiRequests as ModelErpApiRequests;
 use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests as ResourceModelErpApiRequests;
 
 /**

@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace Rubenromao\ErpApiRequests\Api\Data;
 
-use Rubenromao\ErpApiRequests\Model\ErpApiRequests;
+use Rubenromao\ErpApiRequests\Model\Api\ErpApiRequests;
 
 /**
  * Interface ErpApiRequests
