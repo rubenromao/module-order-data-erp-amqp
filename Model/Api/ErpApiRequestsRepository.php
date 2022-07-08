@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Rubenromao\ErpApiRequests\Model;
+namespace Rubenromao\ErpApiRequests\Model\Api;
 
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
@@ -97,5 +97,90 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
         $searchResult->setTotalCount($collection->getSize());
 
         return $searchResult;
+    }
+    /**
+     * {@inheritDoc}
+     *
+     * @param int $id
+     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterface
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getItem(int $id)
+    {
+        $collection = $this->getOrderCollection()
+            ->addAttributeToFilter('entity_id', ['eq' => $id]);
+
+        /** @var \Magento\Catalog\Api\Data\ProductInterface $product */
+        $product = $collection->getFirstItem();
+        if (!$product->getId()) {
+            throw new NoSuchEntityException(__('Product not found'));
+        }
+
+        return $this->getResponseItemFromProduct($product);
+    }
+
+//    /**
+//     * {@inheritDoc}
+//     *
+//     * @return \Rubenromao\ErpApiRequests\Api\ErpApiResponseInterface[]
+//     */
+//    public function getList()
+//    {
+//        $collection = $this->getOrderCollection();
+//
+//        $result = [];
+//        /** @var \Magento\Catalog\Api\Data\ProductInterface $product */
+//        foreach ($collection->getItems() as $product) {
+//            $result[] = $this->getResponseItemFromProduct($product);
+//        }
+//
+//        return $result;
+//    }
+
+    /**
+     * @param \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface[] $orderData
+     * @return void
+     */
+    public function prepareToSendOrderDataToErp($orderData)
+    {
+        foreach ($orderData as $order) {
+            $this->sendOrderDataToErp(
+                $order->getOrderId(),
+                $order->getOrderId(),
+                $order->getOrderId()
+            );
+        }
+    }
+
+    /**
+     * @param \Magento\Sales\Api\Data\OrderInterface $order
+     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterface
+     */
+    private function getResponseFromErp(OrderInterface $order)
+    {
+        /** @var \Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterface $responseItem */
+        $responseItem = $this->responseItemFactory->create();
+
+        $responseItem->setId($order->getId())
+                    ->setSku($order->getSku())
+                    ->setName($order->getCustomerEmail()
+                );
+
+        return $responseItem;
+    }
+
+    /**
+     * @param int $orderId
+     * @param string $customerEmail
+     * @param int $orderItems
+     * @return void
+     */
+    public function sendOrderDataToErp($orderId, $customerEmail, $orderItems)
+    {
+        $this->orderAction->updateAttributes(
+                    ['order_id' => $orderId],
+                    ['description' => $customerEmail],
+                    ['description' => $orderItems],
+        );
     }
 }

@@ -38,17 +38,24 @@ interface ErpApiRequestsInterface
      * @param int $orderId
      * @return ErpApiRequests
      */
-    public function setOrderId(int $orderId): ErpApiRequests;
+    public function setOrderId(int $orderId): ErpApiRequestsInterface;
 
     /**
      * @param int $code
      * @return ErpApiRequests
      */
-    public function setCode(int $code): ErpApiRequests;
+    public function setCode(int $code): ErpApiRequestsInterface;
 
     /**
      * @param $createdAt
      * @return ErpApiRequests
      */
-    public function setCreatedAt($createdAt): ErpApiRequests;
+    public function setCreatedAt($createdAt): ErpApiRequestsInterface;
+
+    /**
+     * @param $orderData
+     * @return ErpApiRequestsInterface
+     */
+    public function sendOrderDataToErp($orderData): ErpApiRequestsInterface;
+
 }

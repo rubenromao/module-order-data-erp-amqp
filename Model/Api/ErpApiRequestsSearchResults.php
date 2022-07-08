@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Rubenromao\ErpApiRequests\Model;
+namespace Rubenromao\ErpApiRequests\Model\Api;
 
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
 use Magento\Framework\Api\SearchResults;

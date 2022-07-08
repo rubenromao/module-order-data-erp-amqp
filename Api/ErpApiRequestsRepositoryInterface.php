@@ -32,4 +32,30 @@ interface ErpApiRequestsRepositoryInterface
      * @return ErpApiRequestsSearchResultsInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria): ErpApiRequestsSearchResultsInterface;
+
+//    /**
+//     * Return a filtered product.
+//     *
+//     * @param int $id
+//     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface
+//     * @throws \Magento\Framework\Exception\NoSuchEntityException
+//     */
+//    public function getItem(int $id);
+
+//    /**
+//     * Return a list of the filtered products.
+//     *
+//     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterface[]
+//     */
+//    public function getList();
+
+    /**
+     * Set Order data.
+     *
+     * @param $orderId
+     * @param $customerEmail
+     * @param $orderItems
+     * @return void
+     */
+    public function sendOrderDataToErp($orderId, $customerEmail, $orderItems);
 }

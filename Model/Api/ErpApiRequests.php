@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace Rubenromao\ErpApiRequests\Model;
+namespace Rubenromao\ErpApiRequests\Model\Api;
 
 use Magento\Framework\Data\Collection\AbstractDb;
 use Magento\Framework\Model\AbstractModel;
@@ -13,10 +13,11 @@ use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
+use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests as ResourceModel;
+use Magento\Framework\DataObject;
 
 /**
- * Class ErpApiRequests
- * @package Rubenromao_ErpApiRequests
+ * Class RequestItem
  */
 class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
 {
@@ -25,7 +26,7 @@ class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
      */
     public function _construct(): void
     {
-        $this->_init(ResourceModel\ErpApiRequests::class);
+        $this->_init(ResourceModel::class);
     }
 
     /**
@@ -102,5 +103,14 @@ class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
     public function setCreatedAt($createdAt): ErpApiRequests
     {
         return $this->setData(self::CREATED_AT, $createdAt);
+    }
+
+    /**
+     * @param $orderData
+     * @return ErpApiRequestsInterface
+     */
+    public function sendOrderDataToErp($orderData): ErpApiRequestsInterface
+    {
+        return $this->setData($orderData, $orderData);
     }
 }
