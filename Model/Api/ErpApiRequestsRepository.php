@@ -114,7 +114,7 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
      * @param SearchCriteriaInterface $searchCriteria
      * @return ErpApiRequestsSearchResultsInterface|null
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): ?ErpApiRequestsSearchResultsInterface
+    public function getList($searchCriteria): ?ErpApiRequestsSearchResultsInterface
     {
         $collection = $this->collectionFactory->create();
         $this->collectionProcessor->process($searchCriteria, $collection);
@@ -132,7 +132,7 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
      * @return ErpApiResponseInterface|null
      * @throws NoSuchEntityException
      */
-    public function getItem(int $id): ?ErpApiResponseInterface
+    public function getItem($id): ?ErpApiResponseInterface
     {
         $collection = $this->orderCollectionFactory->create();
         $collection->addAttributeToFilter('entity_id', ['eq' => $id]);
@@ -150,7 +150,7 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
      * @param OrderInterface $order
      * @return ErpApiResponseInterface
      */
-    private function getResponseItemFromErp(OrderInterface $order): ErpApiResponseInterface
+    private function getResponseItemFromErp($order): ErpApiResponseInterface
     {
         /** @var ErpApiResponseInterface $response */
         $response = $this->responseFactory->create();
@@ -197,7 +197,7 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
      * @param OrderInterface $order
      * @return ErpApiResponseInterface|null
      */
-    public function getResponseFromErp(OrderInterface $order): ?ErpApiResponseInterface
+    public function getResponseFromErp($order): ?ErpApiResponseInterface
     {
         /** @var ErpApiResponseInterface $responseItem */
         $response = $this->responseFactory->create();
@@ -211,9 +211,9 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
     }
 
     /**
-     * @param $orderId
-     * @param $customerEmail
-     * @param $orderItems
+     * @param int $orderId
+     * @param string $customerEmail
+     * @param int $orderItems
      * @return ErpApiRequestsInterface|null
      */
     public function sendRequestToErp($orderId, $customerEmail, $orderItems): ?ErpApiRequestsInterface

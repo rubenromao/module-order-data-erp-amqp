@@ -26,7 +26,7 @@ interface ErpApiRequestsRepositoryInterface
      * @param ErpApiRequestsInterface $erpApiRequests
      * @return ErpApiRequestsInterface|null
      */
-    public function save(ErpApiRequestsInterface $erpApiRequests): ?ErpApiRequestsInterface;
+    public function save($erpApiRequests): ?ErpApiRequestsInterface;
 
     /**
      * Get list of API requests.
@@ -34,7 +34,7 @@ interface ErpApiRequestsRepositoryInterface
      * @param SearchCriteriaInterface $searchCriteria
      * @return ErpApiRequestsSearchResultsInterface|null
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): ?ErpApiRequestsSearchResultsInterface;
+    public function getList($searchCriteria): ?ErpApiRequestsSearchResultsInterface;
 
     /**
      * Return a filtered product.
@@ -43,7 +43,7 @@ interface ErpApiRequestsRepositoryInterface
      * @return Data\ErpApiResponseInterface|null
      * @throws NoSuchEntityException
      */
-    public function getItem(int $id): ?ErpApiResponseInterface;
+    public function getItem($id): ?ErpApiResponseInterface;
 
 //    /**
 //     * Return a list of the filtered products.
@@ -58,14 +58,14 @@ interface ErpApiRequestsRepositoryInterface
      * @param OrderInterface $order
      * @return ErpApiResponseInterface|null
      */
-    public function getResponseFromErp(OrderInterface $order): ?ErpApiResponseInterface;
+    public function getResponseFromErp($order): ?ErpApiResponseInterface;
 
     /**
      * Set Order data.
      *
-     * @param $orderId
-     * @param $customerEmail
-     * @param $orderItems
+     * @param int $orderId
+     * @param string $customerEmail
+     * @param int $orderItems
      * @return ErpApiRequestsInterface|null
      */
     public function sendRequestToErp($orderId, $customerEmail, $orderItems): ?ErpApiRequestsInterface;
