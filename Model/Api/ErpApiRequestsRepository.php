@@ -10,12 +10,23 @@ namespace Rubenromao\ErpApiRequests\Model\Api;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
+
+use Magento\Sales\Api\Data\OrderInterface;
+use Magento\Sales\Model\ResourceModel\Order\CollectionFactory as OrderCollection;
+
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
+
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterfaceFactory;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
-use Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterfaceFactory;
+
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterface;
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterfaceFactory;
+use Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface;
+
 use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests as ResourceModelErpApiRequests;
-use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests\CollectionFactory;
+use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests\CollectionFactory as CustomOrderCollection;
 
 /**
  * Class ErpApiRequestsRepository
@@ -26,52 +37,69 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
     /**
      * @var ResourceModelErpApiRequests
      */
-    protected $resourceModelErpApiRequests;
+    private $resourceModelErpApiRequests;
     /**
-     * @var CollectionFactory
+     * @var CustomOrderCollection
      */
-    protected $collectionFactory;
+    private $collectionFactory;
     /**
      * @var ErpApiRequestsSearchResultsInterface
      */
-    protected $searchResultsFactory;
+    private $searchResultsFactory;
     /**
      * @var CollectionProcessorInterface
      */
-    protected $collectionProcessor;
+    private $collectionProcessor;
+    /**
+     * @var OrderCollection
+     */
+    private $orderCollectionFactory;
+    /**
+     * @var ErpApiResponseInterfaceFactory
+     */
+    private $responseFactory;
+    /**
+     * @var ErpApiRequestsInterfaceFactory
+     */
+    private $requestFactory;
 
     /**
      * ErpApiRequestsRepository constructor.
      *
      * @param ResourceModelErpApiRequests $resourceModelErpApiRequests
-     * @param CollectionFactory $collectionFactory
+     * @param CustomOrderCollection $collectionFactory
+     * @param OrderCollection $orderCollectionFactory
      * @param ErpApiRequestsSearchResultsInterfaceFactory $searchResultsFactory
      * @param CollectionProcessorInterface $collectionProcessor
+     * @param ErpApiResponseInterfaceFactory $responseFactory
+     * @param ErpApiRequestsInterfaceFactory $requestFactory
      */
     public function __construct(
         ResourceModelErpApiRequests $resourceModelErpApiRequests,
-        CollectionFactory $collectionFactory,
+        CustomOrderCollection $collectionFactory,
+        OrderCollection $orderCollectionFactory,
         ErpApiRequestsSearchResultsInterfaceFactory $searchResultsFactory,
-        CollectionProcessorInterface $collectionProcessor
+        CollectionProcessorInterface $collectionProcessor,
+        ErpApiResponseInterfaceFactory $responseFactory,
+        ErpApiRequestsInterfaceFactory $requestFactory
     ) {
         $this->resourceModelErpApiRequests = $resourceModelErpApiRequests;
         $this->collectionFactory = $collectionFactory;
+        $this->orderCollectionFactory = $orderCollectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
         $this->collectionProcessor = $collectionProcessor;
+        $this->responseFactory = $responseFactory;
+        $this->requestFactory = $requestFactory;
     }
 
     /**
-     * @param $apiRequests
+     * @param $erpApiRequests
      * @return ErpApiRequestsInterface|void
      * @throws CouldNotSaveException
      */
-    /**
-     * @param $erpApiRequests
-     * @return ErpApiRequestsInterface
-     * @throws CouldNotSaveException
-     */
-    public function save($erpApiRequests): ErpApiRequestsInterface
+    public function save($erpApiRequests): ?ErpApiRequestsInterface
     {
+        //var_dump($erpApiRequests);exit();
         try {
             $this->resourceModelErpApiRequests->save($erpApiRequests);
         } catch (\Exception $exception) {
@@ -84,9 +112,9 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
 
     /**
      * @param SearchCriteriaInterface $searchCriteria
-     * @return ErpApiRequestsSearchResultsInterface
+     * @return ErpApiRequestsSearchResultsInterface|null
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): ErpApiRequestsSearchResultsInterface
+    public function getList(SearchCriteriaInterface $searchCriteria): ?ErpApiRequestsSearchResultsInterface
     {
         $collection = $this->collectionFactory->create();
         $this->collectionProcessor->process($searchCriteria, $collection);
@@ -98,89 +126,109 @@ class ErpApiRequestsRepository implements ErpApiRequestsRepositoryInterface
 
         return $searchResult;
     }
-    /**
-     * {@inheritDoc}
-     *
-     * @param int $id
-     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterface
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
-    public function getItem(int $id)
-    {
-        $collection = $this->getOrderCollection()
-            ->addAttributeToFilter('entity_id', ['eq' => $id]);
 
-        /** @var \Magento\Catalog\Api\Data\ProductInterface $product */
-        $product = $collection->getFirstItem();
-        if (!$product->getId()) {
-            throw new NoSuchEntityException(__('Product not found'));
+    /**
+     * @param int $id
+     * @return ErpApiResponseInterface|null
+     * @throws NoSuchEntityException
+     */
+    public function getItem(int $id): ?ErpApiResponseInterface
+    {
+        $collection = $this->orderCollectionFactory->create();
+        $collection->addAttributeToFilter('entity_id', ['eq' => $id]);
+
+        /** @var OrderInterface $order */
+        $order = $collection->getFirstItem();
+        if (!$order->getId()) {
+            throw new NoSuchEntityException(__('Order not found'));
         }
 
-        return $this->getResponseItemFromProduct($product);
+        return $this->getResponseItemFromErp($order);
     }
+
+    /**
+     * @param OrderInterface $order
+     * @return ErpApiResponseInterface
+     */
+    private function getResponseItemFromErp(OrderInterface $order): ErpApiResponseInterface
+    {
+        /** @var ErpApiResponseInterface $response */
+        $response = $this->responseFactory->create();
+
+        $response->setOrderId($order->getEntityId())
+                    ->setCustomerEmail($order->getCustomerEmail())
+                    ->setOrderItems($order->getTotalItemCount());
+
+        return $response;
+    }
+
+//    /**
+//     * @return \Magento\Sales\Model\ResourceModel\Order\Collection
+//     */
+//    private function getOrderCollection(): \Magento\Sales\Model\ResourceModel\Order\Collection
+//    {
+//        /** @var \Magento\Sales\Model\ResourceModel\Order\Collection $collection */
+//        $collection = $this->orderCollectionFactory->create();
+//
+//        $collection->load();
+//
+//        return $collection;
+//    }
 
 //    /**
 //     * {@inheritDoc}
 //     *
 //     * @return \Rubenromao\ErpApiRequests\Api\ErpApiResponseInterface[]
 //     */
-//    public function getList()
+//    public function getListV2()
 //    {
 //        $collection = $this->getOrderCollection();
 //
 //        $result = [];
-//        /** @var \Magento\Catalog\Api\Data\ProductInterface $product */
-//        foreach ($collection->getItems() as $product) {
-//            $result[] = $this->getResponseItemFromProduct($product);
+//        /** @var \Magento\Sales\Api\Data\OrderInterface $order */
+//        foreach ($collection->getItems() as $order) {
+//            $result[] = $this->getResponseItemFromErp($order);
 //        }
 //
 //        return $result;
 //    }
 
     /**
-     * @param \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface[] $orderData
-     * @return void
+     * @param OrderInterface $order
+     * @return ErpApiResponseInterface|null
      */
-    public function prepareToSendOrderDataToErp($orderData)
+    public function getResponseFromErp(OrderInterface $order): ?ErpApiResponseInterface
     {
-        foreach ($orderData as $order) {
-            $this->sendOrderDataToErp(
-                $order->getOrderId(),
-                $order->getOrderId(),
-                $order->getOrderId()
-            );
-        }
-    }
+        /** @var ErpApiResponseInterface $responseItem */
+        $response = $this->responseFactory->create();
 
-    /**
-     * @param \Magento\Sales\Api\Data\OrderInterface $order
-     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterface
-     */
-    private function getResponseFromErp(OrderInterface $order)
-    {
-        /** @var \Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterface $responseItem */
-        $responseItem = $this->responseItemFactory->create();
-
-        $responseItem->setId($order->getId())
-                    ->setSku($order->getSku())
-                    ->setName($order->getCustomerEmail()
+        $response->setOrderId($order->getEntityId())
+                    ->setCustomerEmail($order->getCustomerEmail())
+                    ->setOrderItems($order->getTotalItemCount()
                 );
 
-        return $responseItem;
+        return $response;
     }
 
     /**
-     * @param int $orderId
-     * @param string $customerEmail
-     * @param int $orderItems
-     * @return void
+     * @param $orderId
+     * @param $customerEmail
+     * @param $orderItems
+     * @return ErpApiRequestsInterface|null
      */
-    public function sendOrderDataToErp($orderId, $customerEmail, $orderItems)
+    public function sendRequestToErp($orderId, $customerEmail, $orderItems): ?ErpApiRequestsInterface
     {
-        $this->orderAction->updateAttributes(
-                    ['order_id' => $orderId],
-                    ['description' => $customerEmail],
-                    ['description' => $orderItems],
-        );
+        /** @var ErpApiRequestsInterface $request */
+        $request = $this->requestFactory->create();
+
+        $request
+            ->setOrderId($orderId)
+            ->setCustomerEmail($customerEmail)
+            ->setOrderItems($orderItems);
+
+        return $request;
+//                    [ErpApiResponseInterface::ORDER_ID => $orderId],
+//                    [ErpApiResponseInterface::CUSTOMER_EMAIL => $customerEmail],
+//                    [ErpApiResponseInterface::ORDER_ITEMS => $orderItems],
     }
 }

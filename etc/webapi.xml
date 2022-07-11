@@ -1,10 +1,16 @@
 <?xml version="1.0"?>
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
-    <route url="/V1/orderData" method="POST">
-        <service class="Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface" method="sendOrderDataToErp"/>
+    <route url="/V1/rest_test/getOrder/:id" method="GET">
+        <service class="Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface" method="getResponseFromErp" />
         <resources>
-            <resource ref="self"/>
+            <resource ref="Rubenromao_ErpApiRequests::order_get_response_from_erp" />
+        </resources>
+    </route>
+    <route url="/V1/rest/sendDataErp" method="POST">
+        <service class="Rubenromao\ErpApiRequests\Api\ErpApiRequestsRepositoryInterface" method="sendRequestToErp" />
+        <resources>
+            <resource ref="Rubenromao_ErpApiRequests::order_send_request_to_erp" />
         </resources>
     </route>
 </routes>

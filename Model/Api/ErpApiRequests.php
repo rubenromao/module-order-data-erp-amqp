@@ -12,7 +12,9 @@ use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\ResourceModel\AbstractResource;
 use Magento\Framework\Registry;
+use Magento\Sales\Api\Data\OrderInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterface;
 use Rubenromao\ErpApiRequests\Model\ResourceModel\ErpApiRequests as ResourceModel;
 use Magento\Framework\DataObject;
 
@@ -63,28 +65,20 @@ class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
     }
 
     /**
-     * @return int
-     */
-    public function getCode(): int
-    {
-        return $this->getData(self::CODE);
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getCreatedAt(): ?string
-    {
-        return $this->getData(self::CREATED_AT);
-    }
-
-    /**
      * @param $orderId
      * @return ErpApiRequests
      */
     public function setOrderId($orderId): ErpApiRequests
     {
         return $this->setData(self::ORDER_ID, $orderId);
+    }
+
+    /**
+     * @return int
+     */
+    public function getCode(): int
+    {
+        return $this->getData(self::CODE);
     }
 
     /**
@@ -97,6 +91,14 @@ class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
     }
 
     /**
+     * @return null|string
+     */
+    public function getCreatedAt(): ?string
+    {
+        return $this->getData(self::CREATED_AT);
+    }
+
+    /**
      * @param $createdAt
      * @return ErpApiRequests
      */
@@ -106,11 +108,36 @@ class ErpApiRequests extends AbstractModel implements ErpApiRequestsInterface
     }
 
     /**
-     * @param $orderData
-     * @return ErpApiRequestsInterface
+     * @return string|null
      */
-    public function sendOrderDataToErp($orderData): ErpApiRequestsInterface
+    public function getCustomerEmail(): ?string
     {
-        return $this->setData($orderData, $orderData);
+        return $this->getData(self::CREATED_AT);
+    }
+
+    /**
+     * @param string $customerEmail
+     * @return ErpApiRequestsInterface|null
+     */
+    public function setCustomerEmail($customerEmail): ?ErpApiRequestsInterface
+    {
+        return $this->setData(self::CUSTOMER_EMAIL, $customerEmail);
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getOrderItems(): ?int
+    {
+        return $this->getData(self::ORDER_ITEMS);
+    }
+
+    /**
+     * @param int $orderItems
+     * @return ErpApiRequestsInterface|null
+     */
+    public function setOrderItems($orderItems): ?ErpApiRequestsInterface
+    {
+        return $this->setData(self::ORDER_ITEMS, $orderItems);
     }
 }

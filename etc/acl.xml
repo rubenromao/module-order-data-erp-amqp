@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Rubenromao_ErpApiRequests::order" title="ERP API - Order Data"
+                          translate="title" sortOrder="200">
+                    <resource id="Rubenromao_ErpApiRequests::order_get_response_from_erp" title="Get Order Data DB"
+                              translate="title" sortOrder="10" />
+                    <resource id="Rubenromao_ErpApiRequests::order_send_request_to_erp" title="Send Order Details ERP"
+                              translate="title" sortOrder="30" />
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

@@ -8,8 +8,11 @@ declare(strict_types=1);
 namespace Rubenromao\ErpApiRequests\Api;
 
 use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Sales\Api\Data\OrderInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface;
 use Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsSearchResultsInterface;
+use Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterface;
 
 /**
  * Interface ErpApiRequestsRepositoryInterface
@@ -21,33 +24,41 @@ interface ErpApiRequestsRepositoryInterface
      * Save ERP Api Call.
      *
      * @param ErpApiRequestsInterface $erpApiRequests
-     * @return ErpApiRequestsInterface
+     * @return ErpApiRequestsInterface|null
      */
-    public function save(ErpApiRequestsInterface $erpApiRequests): ErpApiRequestsInterface;
+    public function save(ErpApiRequestsInterface $erpApiRequests): ?ErpApiRequestsInterface;
 
     /**
      * Get list of API requests.
      *
      * @param SearchCriteriaInterface $searchCriteria
-     * @return ErpApiRequestsSearchResultsInterface
+     * @return ErpApiRequestsSearchResultsInterface|null
      */
-    public function getList(SearchCriteriaInterface $searchCriteria): ErpApiRequestsSearchResultsInterface;
+    public function getList(SearchCriteriaInterface $searchCriteria): ?ErpApiRequestsSearchResultsInterface;
 
-//    /**
-//     * Return a filtered product.
-//     *
-//     * @param int $id
-//     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiRequestsInterface
-//     * @throws \Magento\Framework\Exception\NoSuchEntityException
-//     */
-//    public function getItem(int $id);
+    /**
+     * Return a filtered product.
+     *
+     * @param int $id
+     * @return Data\ErpApiResponseInterface|null
+     * @throws NoSuchEntityException
+     */
+    public function getItem(int $id): ?ErpApiResponseInterface;
 
 //    /**
 //     * Return a list of the filtered products.
 //     *
 //     * @return \Rubenromao\ErpApiRequests\Api\Data\ErpApiResponseInterface[]
 //     */
-//    public function getList();
+//    public function getList(): array;
+
+    /**
+     * Get response
+     *
+     * @param OrderInterface $order
+     * @return ErpApiResponseInterface|null
+     */
+    public function getResponseFromErp(OrderInterface $order): ?ErpApiResponseInterface;
 
     /**
      * Set Order data.
@@ -55,7 +66,7 @@ interface ErpApiRequestsRepositoryInterface
      * @param $orderId
      * @param $customerEmail
      * @param $orderItems
-     * @return void
+     * @return ErpApiRequestsInterface|null
      */
-    public function sendOrderDataToErp($orderId, $customerEmail, $orderItems);
+    public function sendRequestToErp($orderId, $customerEmail, $orderItems): ?ErpApiRequestsInterface;
 }
